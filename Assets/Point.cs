@@ -1,4 +1,3 @@
-
 class Point {
   protected PVector pos;
 

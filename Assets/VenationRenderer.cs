@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 
 class VenationRenderer {
   VenationAlgorithm _va;
@@ -28,7 +30,7 @@ class VenationRenderer {
     _g.fill(244);
 
     Set<VeinNode> veinNodes = _va.getVeinNodes();
-    for (VeinNode veinNode : veinNodes) {
+    foreach (VeinNode veinNode in veinNodes) {
       p = veinNode.getPositionRef();
       _g.ellipse(_size * p.x, _size * p.y, 2*r, 2*r);
     }
@@ -41,8 +43,8 @@ class VenationRenderer {
     _g.stroke(255, 192, 192);
     _g.strokeWeight(1);
 
-    ArrayList<Auxin> auxins = _va.getAuxins();
-    for (Auxin auxin : auxins) {
+    List<Auxin> auxins = _va.getAuxins();
+    foreach (Auxin auxin in auxins) {
       p = auxin.getPositionRef();
       if (auxin.isDoomed()) {
         _g.fill(255, 128, 128);
@@ -63,14 +65,14 @@ class VenationRenderer {
     _g.fill(255);
 
     Set<VeinNode> veinNodes = _va.getVeinNodes();
-    for (VeinNode veinNode : veinNodes) {
+    foreach (VeinNode veinNode in veinNodes) {
       p = veinNode.getPositionRef();
       _g.ellipse(_size * p.x, _size * p.y, 2*r, 2*r);
     }
   }
 
   void drawNeighborAuxins() {
-    for (VeinNode veinNode : _va.getVeinNodes()) {
+    foreach (VeinNode veinNode in _va.getVeinNodes()) {
       drawNeighborAuxins(veinNode);
     }
   }
@@ -80,8 +82,8 @@ class VenationRenderer {
     PVector p;
 
     PVector veinNodePos = veinNode.getPositionRef();
-    ArrayList<Auxin> neighborAuxins = _va.getNeighborAuxins(veinNodePos.x, veinNodePos.y);
-    for (Auxin auxin : neighborAuxins) {
+    List<Auxin> neighborAuxins = _va.getNeighborAuxins(veinNodePos.x, veinNodePos.y);
+    foreach (Auxin auxin in neighborAuxins) {
       p = auxin.getPositionRef();
       _g.stroke(255, 192, 192);
       _g.strokeWeight(1);
@@ -91,7 +93,7 @@ class VenationRenderer {
   }
 
   void drawInfluencerAuxins() {
-    for (VeinNode veinNode : _va.getVeinNodes()) {
+    foreach (VeinNode veinNode in _va.getVeinNodes()) {
       drawInfluencerAuxins(veinNode);
     }
   }
@@ -101,8 +103,8 @@ class VenationRenderer {
     PVector p;
 
     PVector veinNodePos = veinNode.getPositionRef();
-    ArrayList<Auxin> influencerAuxins = _va.getInfluencerAuxins(veinNode);
-    for (Auxin auxin : influencerAuxins) {
+    List<Auxin> influencerAuxins = _va.getInfluencerAuxins(veinNode);
+    foreach (Auxin auxin in influencerAuxins) {
       p = auxin.getPositionRef();
 
       _g.stroke(255, 128, 128);
@@ -117,7 +119,7 @@ class VenationRenderer {
   }
 
   void drawAuxinInfluenceDirections() {
-    for (VeinNode veinNode : _va.getVeinNodes()) {
+    foreach (VeinNode veinNode in _va.getVeinNodes()) {
       drawAuxinInfluenceDirection(veinNode);
     }
   }
@@ -140,7 +142,7 @@ class VenationRenderer {
 
   void drawInfluentialAuxins() {
     PVector auxinPos;
-    for (Auxin auxin : _va.getAuxins()) {
+    foreach (Auxin auxin in _va.getAuxins()) {
       if (_va.getRelativeNeighborVeinNodes(auxin).size() > 1) {
         auxinPos = auxin.getPositionRef();
         _g.noStroke();

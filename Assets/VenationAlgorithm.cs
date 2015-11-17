@@ -2,14 +2,14 @@
  * @see http://algorithmicbotany.org/papers/venation.sig2005.pdf
  */
 
-import org.jgrapht.Graph;
-import org.jgrapht.graph.DefaultEdge;
-import org.jgrapht.graph.SimpleGraph;
+using System.Collections;
+using System.Collections.Generic;
 
-import java.util.Set;
+
+//import java.util.Set;
 
 class VenationAlgorithm {
-  ArrayList<Auxin> _auxins;
+  List<Auxin> _auxins;
   float _auxinRadius;
   float _veinNodeRadius;
   float _killRadius;
@@ -17,7 +17,7 @@ class VenationAlgorithm {
   Graph _graph;
 
   VenationAlgorithm() {
-    _auxins = new ArrayList<Auxin>();
+    _auxins = new List<Auxin>();
     _auxinRadius = 0.025;
     _veinNodeRadius = 0.0125;
     _killRadius = 0.025;
@@ -46,7 +46,7 @@ class VenationAlgorithm {
     return _auxins.get(index);
   }
 
-  ArrayList<Auxin> getAuxins() {
+  List<Auxin> getAuxins() {
     return _auxins;
   }
 
@@ -62,11 +62,11 @@ class VenationAlgorithm {
     return _graph.vertexSet().size();
   }
 
-  ArrayList<Auxin> getNeighborAuxins(float x, float y) {
+  List<Auxin> getNeighborAuxins(float x, float y) {
     float dx, dy, r = 4.0 * _neighborhoodRadius * _neighborhoodRadius;
     PVector p;
-    ArrayList<Auxin> neighborAuxins = new ArrayList<Auxin>();
-    for (Auxin auxin : _auxins) {
+    List<Auxin> neighborAuxins = new List<Auxin>();
+    foreach (Auxin auxin in _auxins) {
       p = auxin.getPositionRef();
       dx = p.x - x;
       dy = p.y - y;
@@ -77,12 +77,12 @@ class VenationAlgorithm {
     return neighborAuxins;
   }
 
-  ArrayList<VeinNode> getNeighborVeinNodes(float x, float y) {
+  List<VeinNode> getNeighborVeinNodes(float x, float y) {
     float dx, dy, r = 4.0 * _neighborhoodRadius * _neighborhoodRadius;
     PVector p;
-    ArrayList<VeinNode> neighborVeinNodes = new ArrayList<VeinNode>();
+    List<VeinNode> neighborVeinNodes = new List<VeinNode>();
     Set<VeinNode> veinNodes = _graph.vertexSet();
-    for (VeinNode veinNode : veinNodes) {
+	foreach (VeinNode veinNode in veinNodes) {
       p = veinNode.getPositionRef();
       dx = p.x - x;
       dy = p.y - y;
@@ -93,11 +93,11 @@ class VenationAlgorithm {
     return neighborVeinNodes;
   }
 
-  ArrayList<Auxin> getInfluencerAuxins(VeinNode veinNode) {
+  List<Auxin> getInfluencerAuxins(VeinNode veinNode) {
     PVector veinNodePos = veinNode.getPositionRef();
-    ArrayList<Auxin> neighborAuxins = getNeighborAuxins(veinNodePos.x, veinNodePos.y);
-    ArrayList<Auxin> influencerAuxins = new ArrayList<Auxin>();
-    for (Auxin auxin : neighborAuxins) {
+    List<Auxin> neighborAuxins = getNeighborAuxins(veinNodePos.x, veinNodePos.y);
+    List<Auxin> influencerAuxins = new List<Auxin>();
+	foreach (Auxin auxin in neighborAuxins) {
       // FIXME: getInfluencedVeinNodes gets called multiple times per auxin. Cache.
       if (getInfluencedVeinNodes(auxin).contains(veinNode)) {
         influencerAuxins.add(auxin);
@@ -106,10 +106,10 @@ class VenationAlgorithm {
     return influencerAuxins;
   }
 
-  ArrayList<VeinNode> getInfluencedVeinNodes(Auxin auxin) {
+  List<VeinNode> getInfluencedVeinNodes(Auxin auxin) {
     VeinNode veinNode;
     PVector veinNodePos, auxinPos = auxin.getPositionRef();
-    ArrayList<VeinNode> veinNodes = getRelativeNeighborVeinNodes(auxin);
+    List<VeinNode> veinNodes = getRelativeNeighborVeinNodes(auxin);
     for (int i = 0; i < veinNodes.size(); i++) {
       veinNode = veinNodes.get(i);
       veinNodePos = veinNode.getPositionRef();
@@ -121,9 +121,9 @@ class VenationAlgorithm {
     return veinNodes;
   }
 
-  PVector getAuxinInfluenceDirection(VeinNode veinNode, ArrayList<Auxin> auxinInfluencers) {
+  PVector getAuxinInfluenceDirection(VeinNode veinNode, List<Auxin> auxinInfluencers) {
     PVector p, result = null;
-    for (Auxin auxin : auxinInfluencers) {
+    foreach (Auxin auxin in auxinInfluencers) {
       p = auxin.getPosition();
       p.sub(veinNode.getPositionRef());
       p.normalize();
@@ -149,25 +149,25 @@ class VenationAlgorithm {
     return result;
   }
 
-  ArrayList<VeinNode> getRelativeNeighborVeinNodes(Auxin auxin) {
+  List<VeinNode> getRelativeNeighborVeinNodes(Auxin auxin) {
     // FIXME: Inefficient because of instantiation of PVectors.
     boolean fail;
     PVector p0, p1, auxinPos = auxin.getPositionRef();
     PVector auxinToP0, auxinToP1, p0ToP1;
 
     // Limit search to the neighborhood of the auxin.
-    ArrayList<VeinNode> neighborVeinNodes = getNeighborVeinNodes(auxinPos.x, auxinPos.y);
+    List<VeinNode> neighborVeinNodes = getNeighborVeinNodes(auxinPos.x, auxinPos.y);
 
     // p0 is a relative neighbor of auxinPos iff
     // for any point p1 that is closer to auxinPos than is p0,
     // p0 is closer to auxinPos than to p1.
-    ArrayList<VeinNode> relNeighborVeinNodes = new ArrayList<VeinNode>();
-    for (VeinNode vn0 : neighborVeinNodes) {
+    List<VeinNode> relNeighborVeinNodes = new List<VeinNode>();
+    foreach (VeinNode vn0 in neighborVeinNodes) {
       p0 = vn0.getPositionRef();
       auxinToP0 = PVector.sub(p0, auxinPos);
       fail = false;
 
-      for (VeinNode vn1 : neighborVeinNodes) {
+      foreach (VeinNode vn1 in neighborVeinNodes) {
         if (vn0 == vn1) continue;
         p1 = vn1.getPositionRef();
         auxinToP1 = PVector.sub(p1, auxinPos);
@@ -191,7 +191,7 @@ class VenationAlgorithm {
     PVector p;
     float dx, dy, distSq, candidateDistSq = 0;
     Set<VeinNode> veinNodes = _graph.vertexSet();
-    for (VeinNode veinNode : veinNodes) {
+    foreach (VeinNode veinNode in veinNodes) {
       p = veinNode.getPositionRef();
       dx = p.x - x;
       dy = p.y - y;
@@ -245,7 +245,7 @@ class VenationAlgorithm {
 
   void placeVeinNode(VeinNode seedVeinNode) {
     VeinNode veinNode;
-    ArrayList<Auxin> influencerAuxins = getInfluencerAuxins(seedVeinNode);
+    List<Auxin> influencerAuxins = getInfluencerAuxins(seedVeinNode);
     PVector p = getAuxinInfluenceDirection(seedVeinNode, influencerAuxins);
     if (p != null) {
       if (p.mag() <= 0) {
@@ -272,8 +272,8 @@ class VenationAlgorithm {
       auxin = _auxins.get(i);
       auxinPos = auxin.getPositionRef();
       if (auxin.isDoomed()) {
-        ArrayList<VeinNode> influencedVeinNodes = getInfluencedVeinNodes(auxin);
-        ArrayList<VeinNode> taggedVeinNodes = auxin.getTaggedVeinNodesRef();
+        List<VeinNode> influencedVeinNodes = getInfluencedVeinNodes(auxin);
+        List<VeinNode> taggedVeinNodes = auxin.getTaggedVeinNodesRef();
         for (int j = 0; j < taggedVeinNodes.size(); j++) {
           veinNode = taggedVeinNodes.get(j);
           veinNodePos = veinNode.getPositionRef();
@@ -292,7 +292,7 @@ class VenationAlgorithm {
       }
       else {
         if (hitTestExistingAuxin(auxinPos.x, auxinPos.y)) {
-          ArrayList<VeinNode> influencedVeinNodes = getInfluencedVeinNodes(auxin);
+          List<VeinNode> influencedVeinNodes = getInfluencedVeinNodes(auxin);
           if (influencedVeinNodes.size() > 1) {
             auxin.setDoomed(true);
             auxin.setTaggedVeinNodes(influencedVeinNodes);
@@ -316,7 +316,7 @@ class VenationAlgorithm {
     r = _killRadius * _killRadius;
 
     Set<VeinNode> veinNodes = _graph.vertexSet();
-    for (VeinNode veinNode : veinNodes) {
+    foreach (VeinNode veinNode in veinNodes) {
       p = veinNode.getPositionRef();
       dx = p.x - x;
       dy = p.y - y;
@@ -336,7 +336,7 @@ class VenationAlgorithm {
     PVector p;
 
     r = 4.0 * _auxinRadius * _auxinRadius;
-    for (Auxin auxin : _auxins) {
+    foreach (Auxin auxin in _auxins) {
       p = auxin.getPositionRef();
       dx = p.x - x;
       dy = p.y - y;
@@ -347,7 +347,7 @@ class VenationAlgorithm {
 
     r = _killRadius * _killRadius;
     Set<VeinNode> veinNodes = _graph.vertexSet();
-    for (VeinNode veinNode : veinNodes) {
+    foreach (VeinNode veinNode in veinNodes) {
       p = veinNode.getPositionRef();
       dx = p.x - x;
       dy = p.y - y;

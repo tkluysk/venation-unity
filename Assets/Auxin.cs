@@ -1,24 +1,26 @@
+using System.Collections;
+using System.Collections.Generic;
 
 class Auxin extends Point {
   private boolean _isDoomed;
-  private ArrayList<VeinNode> _taggedVeinNodes;
+  private List<VeinNode> _taggedVeinNodes;
 
   Auxin() {
     pos = new PVector();
     _isDoomed = false;
-    _taggedVeinNodes = new ArrayList<VeinNode>();
+    _taggedVeinNodes = new List<VeinNode>();
   }
 
   Auxin(PVector p) {
     pos = p;
     _isDoomed = false;
-    _taggedVeinNodes = new ArrayList<VeinNode>();
+    _taggedVeinNodes = new List<VeinNode>();
   }
 
   Auxin(float x, float y) {
     pos = new PVector(x, y);
     _isDoomed = false;
-    _taggedVeinNodes = new ArrayList<VeinNode>();
+    _taggedVeinNodes = new List<VeinNode>();
   }
 
   boolean isDoomed() {
@@ -29,7 +31,7 @@ class Auxin extends Point {
     _isDoomed = b;
   }
 
-  ArrayList<VeinNode> getTaggedVeinNodesRef() {
+  List<VeinNode> getTaggedVeinNodesRef() {
     return _taggedVeinNodes;
   }
 
@@ -37,7 +39,7 @@ class Auxin extends Point {
     return _taggedVeinNodes.size() > 0;
   }
 
-  void setTaggedVeinNodes(ArrayList<VeinNode> veinNodes) {
+  void setTaggedVeinNodes(List<VeinNode> veinNodes) {
     _taggedVeinNodes = veinNodes;
   }
 }

@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 
 class SimpleRenderer {
   private VenationAlgorithm _va;
@@ -19,7 +21,7 @@ class SimpleRenderer {
     _g.strokeWeight(1);
     _g.noFill();
 
-    for (VeinNode veinNode : veinNodes) {
+    foreach (VeinNode veinNode in veinNodes) {
       p = veinNode.getPositionRef();
       drawPoint(_size * p.x, _size * p.y);
     }
