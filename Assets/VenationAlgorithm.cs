@@ -249,8 +249,8 @@ public class VenationAlgorithm
         VeinNode veinNode;
 
         for ( int i = 0; i < 3; i++ ) {
-            x = random ( 1 );
-            y = random ( 1 );
+			x = UnityEngine.Random.Range(0,1);
+			y = UnityEngine.Random.Range(0,1);
             veinNode = new VeinNode ( x, y );
             _graph.AddVertex ( veinNode );
         }
@@ -261,8 +261,8 @@ public class VenationAlgorithm
         float x, y;
 
         for ( int i = 0; i < 1000 && _auxins.Count < 200; i++ ) {
-            x = random ( 1 );
-            y = random ( 1 );
+			x = UnityEngine.Random.Range(0,1);
+			y = UnityEngine.Random.Range(0,1);
 
             if ( !hitTestPotentialAuxin ( x, y ) )
                 _auxins.Add ( new Auxin ( x, y ) );
@@ -291,11 +291,11 @@ public class VenationAlgorithm
             if ( p.mag() <= 0 ) {
                 p.x = 1;
                 p.y = 0;
-                p.rotate ( random ( 1 ) * 2 * PI );
+				p.rotate ( UnityEngine.Random.Range(0,1) * 2 * PI );
             }
 
             p.mult ( 2 * _veinNodeRadius );
-            //p.rotate((2 * random(1) - 1) * 2 * PI * 0.05); // jitter
+			//p.rotate((2 * UnityEngine.Random.Range(0,1); - 1) * 2 * PI * 0.05); // jitter
             p.add ( seedVeinNode.getPositionRef() );
             veinNode = new VeinNode ( p );
             _graph.AddVertex ( veinNode );
