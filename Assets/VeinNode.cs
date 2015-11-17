@@ -1,4 +1,4 @@
-class VeinNode extends Point {
+class VeinNode : Point {
   VeinNode() {
     pos = new PVector();
   }

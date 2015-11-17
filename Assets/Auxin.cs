@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-class Auxin extends Point {
+class Auxin : Point {
   private boolean _isDoomed;
   private List<VeinNode> _taggedVeinNodes;
 
