@@ -33,6 +33,10 @@ class SimpleRenderer
 		}
 		
 		GL.Color ( Color.black );
+		
+//		foreach ( Edge edge in veinEdges ) {
+//			MiscUtil.GLDrawLine ( edge.v1.position, edge.v2.position );
+//        }
 
 		foreach ( Auxin auxin in va._auxins ) {
 			p = auxin.getPosition() * size;

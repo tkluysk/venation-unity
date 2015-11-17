@@ -66,6 +66,11 @@ public class VenationAlgorithm
     public List<VeinNode> getVeinNodes()
     {
         return _graph.vertices;
+	}
+
+	public List<Edge> getVeinEdges()
+	{
+		return graph.edges;
     }
 
     int numVeinNodes()

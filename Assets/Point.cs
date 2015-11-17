@@ -1,6 +1,6 @@
 public class Point
 {
-    protected PVector position;
+    public PVector position;
 
     public Point()
     {
