@@ -192,13 +192,14 @@ public class PVector
         return PVector.zero;
     }
 
-    public void Normalize ()
+    public void normalize ()
     {
         float num = PVector.Magnitude ( this );
 
         if ( num > kEpsilon ) {
-            PVector.Normalize ( this );
-            //this /= num;
+            var tmp = PVector.Normalize ( this );
+			x = tmp.x;
+			y = tmp.y;
         }
         else {
             x = 0;

@@ -5,12 +5,12 @@ public class VeinNode : Point
         position = new PVector();
     }
 
-    VeinNode ( PVector p )
+    public VeinNode ( PVector p )
     {
         position = p;
     }
 
-    VeinNode ( float x, float y )
+    public VeinNode ( float x, float y )
     {
         position = new PVector ( x, y );
     }

@@ -1,53 +1,53 @@
 using System.Collections;
 using System.Collections.Generic;
 
-class Auxin : Point
+public class Auxin : Point
 {
     private bool _isDoomed;
     private List<VeinNode> _taggedVeinNodes;
 
-    Auxin()
+	public Auxin()
     {
         position = new PVector();
         _isDoomed = false;
         _taggedVeinNodes = new List<VeinNode>();
     }
 
-    Auxin ( PVector p )
+	public Auxin ( PVector p )
     {
         position = p;
         _isDoomed = false;
         _taggedVeinNodes = new List<VeinNode>();
     }
 
-    Auxin ( float x, float y )
+    public Auxin ( float x, float y )
     {
         position = new PVector ( x, y );
         _isDoomed = false;
         _taggedVeinNodes = new List<VeinNode>();
     }
 
-    bool isDoomed()
+	public bool isDoomed()
     {
         return _isDoomed;
     }
 
-    void setDoomed ( bool b )
+	public void setDoomed ( bool b )
     {
         _isDoomed = b;
     }
 
-    List<VeinNode> getTaggedVeinNodesRef()
+	public List<VeinNode> getTaggedVeinNodesRef()
     {
         return _taggedVeinNodes;
     }
 
-    bool hasTaggedVeinNodes()
+	public bool hasTaggedVeinNodes()
     {
         return _taggedVeinNodes.Count > 0;
     }
 
-    void setTaggedVeinNodes ( List<VeinNode> veinNodes )
+	public void setTaggedVeinNodes ( List<VeinNode> veinNodes )
     {
         _taggedVeinNodes = veinNodes;
     }

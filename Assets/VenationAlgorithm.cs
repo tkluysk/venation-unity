@@ -2,6 +2,8 @@
     @see http://algorithmicbotany.org/papers/venation.sig2005.pdf
 */
 
+using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -272,8 +274,8 @@ public class VenationAlgorithm
     void placeVeinNodes()
     {
         // Make sure we don't iterate newly-placed vein nodes.
-        Object[] veinNodes = _graph.vertices.ToArray();
-        int count = veinNodes.length;
+        System.Object[] veinNodes = _graph.vertices.ToArray();
+        int count = veinNodes.Length;
 
         for ( int i = 0; i < count; i++ ) {
             VeinNode veinNode = ( VeinNode ) veinNodes[i];
@@ -291,11 +293,11 @@ public class VenationAlgorithm
             if ( p.mag() <= 0 ) {
                 p.x = 1;
                 p.y = 0;
-				p.rotate ( UnityEngine.Random.Range(0,1) * 2 * PI );
+				p.rotate ( UnityEngine.Random.Range(0,1) * 2 * Mathf.PI );
             }
 
             p.mult ( 2 * _veinNodeRadius );
-			//p.rotate((2 * UnityEngine.Random.Range(0,1); - 1) * 2 * PI * 0.05); // jitter
+			//p.rotate((2 * UnityEngine.Random.Range(0,1) - 1) * 2 * PI * 0.05); // jitter
             p.add ( seedVeinNode.getPositionRef() );
             veinNode = new VeinNode ( p );
             _graph.AddVertex ( veinNode );
@@ -325,13 +327,13 @@ public class VenationAlgorithm
                     dist = PVector.sub ( veinNodePos, auxinPos ).mag();
 
                     if ( dist < _killRadius || !influencedVeinNodes.Contains ( veinNode ) ) {
-                        taggedVeinNodes.Remove ( j );
+                        taggedVeinNodes.RemoveAt ( j );
                         j--;
                     }
                 }
 
                 if ( taggedVeinNodes.Count <= 0 ) {
-                    _auxins.Remove ( i );
+                    _auxins.RemoveAt ( i );
                     i--;
                 }
             }
@@ -344,7 +346,7 @@ public class VenationAlgorithm
                         auxin.setTaggedVeinNodes ( influencedVeinNodes );
                     }
                     else {
-                        _auxins.Remove ( i );
+                        _auxins.RemoveAt ( i );
                         i--;
                     }
                 }
@@ -381,7 +383,7 @@ public class VenationAlgorithm
     {
         float dx, dy, r;
         PVector p;
-        r = 4.0 * _auxinRadius * _auxinRadius;
+        r = 4.0f * _auxinRadius * _auxinRadius;
 
         foreach ( Auxin auxin in _auxins ) {
             p = auxin.getPositionRef();
