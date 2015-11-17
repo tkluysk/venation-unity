@@ -1,79 +1,49 @@
 using UnityEngine;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 
-public class PVector : ICloneable
+public class PVector
 {
-    public const double kEpsilon = double.Epsilon;
-    public double x;
-    public double y;
-    public double z;
+	public const float kEpsilon = float.Epsilon;
+
+    public float x;
+    public float y;
 
     public PVector()
     {
         x = 0;
         y = 0;
-        z = 0;
-    }
-
-    public PVector ( PVector _value )
-    {
-        this.x = _value.x;
-        this.y = _value.y;
-        this.z = _value.z;
-    }
-
-    public PVector ( Vector3 _value )
-    {
-        this.x = _value.x;
-        this.y = _value.y;
-        this.z = _value.z;
     }
 	
-	public PVector ( double x, double y, double z )
+	public PVector ( PVector _value )
+	{
+		this.x = _value.x;
+		this.y = _value.y;
+	}
+
+	public PVector ( Vector2 _value )
+	{
+		this.x = _value.x;
+		this.y = _value.y;
+	}
+	
+	public PVector ( float x, float y )
 	{
 		this.x = x;
 		this.y = y;
-		this.z = z;
-	}
-	
-	public PVector ( Color color )
-	{
-		this.x = color.r;
-		this.y = color.g;
-		this.z = color.b;
 	}
 
-    // for conversion of json vectors
-    public PVector ( Int32[] xyz )
-    {
-        this.x = System.Convert.ToDouble ( xyz[ 0 ] );
-        this.y = System.Convert.ToDouble ( xyz[ 1 ] );
-        this.z = System.Convert.ToDouble ( xyz[ 2 ] );
-    }
-
-    public object Clone()
-    {
-        return new PVector ( x, y, z );
-    }
-
-
-    public void Set ( double _x, double _y, double _z )
+    public void Set ( float _x, float _y )
     {
         this.x = _x;
         this.y = _y;
-        this.z = _z;
     }
 
     public void Set ( PVector vector )
     {
         this.x = vector.x;
         this.y = vector.y;
-        this.z = vector.z;
     }
 
-    public double this[ int index ]
+    public float this[ int index ]
     {
         get {
             switch ( index ) {
@@ -83,10 +53,6 @@ public class PVector : ICloneable
 
                 case 1: {
                     return this.y;
-                }
-
-                case 2: {
-                    return this.z;
                 }
 
                 default: {
@@ -106,11 +72,6 @@ public class PVector : ICloneable
                     break;
                 }
 
-                case 2: {
-                    this.z = value;
-                    break;
-                }
-
                 default: {
                     throw new IndexOutOfRangeException ( "out of range Vector3 index" );
                 }
@@ -118,44 +79,19 @@ public class PVector : ICloneable
         }
     }
 
-
-    public void MoveTo ( PVector to )
-    {
-        this.x = to.x;
-        this.y = to.y;
-        this.z = to.z;
-    }
-
-    public float r
-    {
-        get { return ( float ) this.x; }
-        set { x = ( double ) value; }
-    }
-    public float g
-    {
-        get { return ( float ) this.y; }
-        set { y = ( double ) value; }
-    }
-    public float b
-    {
-        get { return ( float ) this.z; }
-        set { z = ( double ) value; }
-    }
-
     public PVector normalized
     {
         get {
-            return PVector.Normalize ( this );
+            return Vector2.Normalize ( this );
         }
     }
-    public double magnitude
-    {
-        get {
-            return Math.Sqrt ( this.x * this.x + this.y * this.y + this.z * this.z );
-        }
-    }
+	
+	public float mag()
+	{
+		return Mathf.Sqrt ( this.x * this.x + this.y * this.y );
+	}
 
-    public double sqrMagnitude
+    public float sqrMagnitude
     {
         get {
             return this.x * this.x + this.y * this.y + this.z * this.z;
@@ -165,87 +101,78 @@ public class PVector : ICloneable
     public static PVector zero
     {
         get {
-            return new PVector ( 0, 0, 0 );
+            return new PVector ( 0, 0 );
         }
     }
 
     public static PVector one
     {
         get {
-            return new PVector ( 1, 1, 1 );
+            return new PVector ( 1, 1 );
         }
     }
 
-    public static PVector forward
-    {
-        get {
-            return new PVector ( 0, 0, 1 );
-        }
-    }
-    public static PVector back
-    {
-        get {
-            return new PVector ( 0, 0, -1 );
-        }
-    }
     public static PVector up
     {
         get {
-            return new PVector ( 0, 1, 0 );
+            return new PVector ( 0, 1 );
         }
     }
     public static PVector down
     {
         get {
-            return new PVector ( 0, -1, 0 );
+            return new PVector ( 0, -1 );
         }
     }
     public static PVector left
     {
         get {
-            return new PVector ( -1, 0, 0 );
+            return new PVector ( -1, 0 );
         }
     }
     public static PVector right
     {
         get {
-            return new PVector ( 1, 0, 0 );
+            return new PVector ( 1, 0 );
         }
     }
 
     public static PVector Scale ( PVector a, PVector b )
     {
-        return new PVector ( a.x * b.x, a.y * b.y, a.z * b.z );
+        return new PVector ( a.x * b.x, a.y * b.y );
     }
 
-    public PVector Lerp ( PVector a, double t )
+    public PVector Lerp ( PVector a, float t )
     {
         return this + t * ( a - this );
     }
 
-    public void Scale ( PVector vector )
-    {
-        this.x *= vector.x;
-        this.y *= vector.y;
-        this.z *= vector.z;
-    }
+	public void add ( PVector vector )
+	{
+		this.x += vector.x;
+		this.y += vector.y;
+	}
 
-    public void add ( PVector vector )
-    {
-        this.x += vector.x;
-        this.y += vector.y;
-        this.z += vector.z;
-    }
-
-    public static PVector Cross ( PVector lhs, PVector rhs )
-    {
-        return new PVector ( lhs.y * rhs.z - lhs.z * rhs.y, lhs.z * rhs.x - lhs.x * rhs.z, lhs.x * rhs.y - lhs.y * rhs.x );
-    }
-
-    public PVector Cross ( PVector other )
-    {
-        return new PVector ( this.y * other.z - this.z * other.y, this.z * other.x - this.x * other.z, this.x * other.y - this.y * other.x );
-    }
+	public void sub ( PVector vector )
+	{
+		this.x -= vector.x;
+		this.y -= vector.y;
+	}
+	
+	public void mult ( float other )
+	{
+		this.x *= vector.x;
+		this.y *= vector.y;
+	}
+	
+	public void rotate ( float angle )
+	{
+		Vector3 vector = new Vector3 ( x, y, 0 );
+		angle *= 180.0f/Mathf.PI; 
+		vector = Quaternion.AngleAxis(angle, Vector3.forward) * vector;
+		this.x = vector.x;
+		this.y = vector.y;
+	}
 
     public override bool Equals ( object other )
     {
@@ -253,18 +180,12 @@ public class PVector : ICloneable
             return false;
 
         PVector vector = ( PVector ) other;
-        return this.x.Equals ( vector.x ) && this.y.Equals ( vector.y ) && this.z.Equals ( vector.z );
+        return this.x.Equals ( vector.x ) && this.y.Equals ( vector.y );
     }
-
-
-    public static PVector Reflect ( PVector inDirection, PVector inNormal )
-    {
-        return -2f * PVector.Dot ( inNormal, inDirection ) * inNormal + inDirection;
-    }
-
+	
     public static PVector Normalize ( PVector value )
     {
-        double num = PVector.Magnitude ( value );
+        float num = PVector.Magnitude ( value );
 
         if ( num > kEpsilon )
             return value / num;
@@ -274,7 +195,7 @@ public class PVector : ICloneable
 
     public void Normalize ()
     {
-        double num = PVector.Magnitude ( this );
+        float num = PVector.Magnitude ( this );
 
         if ( num > kEpsilon ) {
             PVector.Normalize ( this );
@@ -283,43 +204,41 @@ public class PVector : ICloneable
         else {
             x = 0;
             y = 0;
-            z = 0;
         }
     }
 
-    public double[] ToArray ()
+    public float[] ToArray ()
     {
-        return new double[] {this.x, this.y, this.z};
+        return new float[] {this.x, this.y};
     }
 	
 	public override string ToString ()
 	{
-		return string.Format ( "({0:F1}, {1:F1}, {2:F1})", this.x, this.y, this.z );
+		return string.Format ( "({0:F1}, {1:F1})", this.x, this.y );
 	}
 
 	public string ToString ( int precision )
 	{
-		return string.Format ( "({0:F" + precision + "}, {1:F" + precision + "}, {2:F" + precision + "})", this.x, this.y, this.z );
+		return string.Format ( "({0:F" + precision + "}, {1:F" + precision + "})", this.x, this.y );
 	}
 
     public string ToString ( string format )
     {
-        return string.Format ( "({0}, {1}, {2})", this.x.ToString ( format ), this.y.ToString ( format ), this.z.ToString ( format ) );
+        return string.Format ( "({0}, {1})", this.x.ToString ( format ), this.y.ToString ( format ) );
     }
-
-
-    public static double Dot ( PVector lhs, PVector rhs )
+	
+    public static float Dot ( PVector lhs, PVector rhs )
     {
-        return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
+        return lhs.x * rhs.x + lhs.y * rhs.y;
     }
-    public double Dot ( PVector other )
+    public float Dot ( PVector other )
     {
-        return this.x * other.x + this.y * other.y + this.z * other.z;
+        return this.x * other.x + this.y * other.y;
     }
 
     public static PVector Project ( PVector vector, PVector onNormal )
     {
-        double num = PVector.Dot ( onNormal, onNormal );
+        float num = PVector.Dot ( onNormal, onNormal );
 
         if ( num < kEpsilon )
             return PVector.zero;
@@ -333,10 +252,10 @@ public class PVector : ICloneable
     }
 
 
-    public static double Distance ( PVector a, PVector b )
+    public static float Distance ( PVector a, PVector b )
     {
-        PVector vector = new PVector ( a.x - b.x, a.y - b.y, a.z - b.z );
-        return Math.Sqrt ( vector.x * vector.x + vector.y * vector.y + vector.z * vector.z );
+        PVector vector = new PVector ( a.x - b.x, a.y - b.y );
+        return Math.Sqrt ( vector.x * vector.x + vector.y * vector.y );
     }
 
     public static PVector ClampMagnitude ( PVector vector, float maxLength )
@@ -346,86 +265,70 @@ public class PVector : ICloneable
 
         return vector;
     }
-
-
-    public static double Magnitude ( PVector a )
+	
+    public static float Magnitude ( PVector a )
     {
-        return Math.Sqrt ( a.x * a.x + a.y * a.y + a.z * a.z );
+        return Math.Sqrt ( a.x * a.x + a.y * a.y );
     }
 
-    public static double SqrMagnitude ( PVector a )
+    public static float SqrMagnitude ( PVector a )
     {
-        return a.x * a.x + a.y * a.y + a.z * a.z;
-    }
-
-
-    public static PVector Min ( PVector lhs, PVector rhs )
-    {
-        return new PVector ( Math.Min ( lhs.x, rhs.x ), Math.Min ( lhs.y, rhs.y ), Math.Min ( lhs.z, rhs.z ) );
-    }
-    public static PVector Max ( PVector lhs, PVector rhs )
-    {
-        return new PVector ( Math.Max ( lhs.x, rhs.x ), Math.Max ( lhs.y, rhs.y ), Math.Max ( lhs.z, rhs.z ) );
+        return a.x * a.x + a.y * a.y;
     }
 
     public static PVector operator + ( PVector a, PVector b )
     {
-        return new PVector ( a.x + b.x, a.y + b.y, a.z + b.z );
+        return new PVector ( a.x + b.x, a.y + b.y );
     }
 
-    public PVector Plus ( PVector other )
+    public PVector add ( PVector other )
     {
-        return new PVector ( this.x + other.x, this.y + other.y, this.z + other.z );
+        return new PVector ( this.x + other.x, this.y + other.y );
     }
+	
+	public static PVector operator - ( PVector a, PVector b )
+	{
+		return new PVector ( a.x - b.x, a.y - b.y );
+	}
 
-    public static PVector operator - ( PVector a, PVector b )
-    {
-        return new PVector ( a.x - b.x, a.y - b.y, a.z - b.z );
-    }
-
-    public PVector Minus ( PVector other )
-    {
-        return new PVector ( this.x - other.x, this.y - other.y, this.z - other.z );
-    }
+	public static PVector sub ( PVector a, PVector b )
+	{
+		return new PVector ( a.x - b.x, a.y - b.y );
+	}
 
     public static PVector operator - ( PVector a )
     {
-        return new PVector ( -a.x, -a.y, -a.z );
-    }
-
+        return new PVector ( -a.x, -a.y );
+	}
+	
     public PVector Negated ()
     {
-        return new PVector ( -this.x, -this.y, -this.z );
+        return new PVector ( -this.x, -this.y );
     }
 
-    public static PVector operator * ( PVector a, double d )
+    public static PVector operator * ( PVector a, float d )
     {
-        return new PVector ( a.x * d, a.y * d, a.z * d );
+        return new PVector ( a.x * d, a.y * d );
     }
 
-    public static PVector operator * ( double d, PVector a )
+    public static PVector operator * ( float d, PVector a )
     {
-        return new PVector ( a.x * d, a.y * d, a.z * d );
-    }
-
-    public PVector Times ( double other )
-    {
-        return new PVector ( this.x * other, this.y * other, this.z * other );
+        return new PVector ( a.x * d, a.y * d );
     }
 
     public static PVector operator * ( PVector a, PVector b )
     {
-        return new PVector ( a.x * b.x, a.y * b.y, a.z * b.z );
+        return new PVector ( a.x * b.x, a.y * b.y );
     }
 
-    public static PVector operator / ( PVector a, double d )
+    public static PVector operator / ( PVector a, float d )
     {
-        return new PVector ( a.x / d, a.y / d, a.z / d );
+        return new PVector ( a.x / d, a.y / d );
     }
 
-    public PVector DividedBy ( double other )
+    public PVector DividedBy ( float other )
     {
-        return new PVector ( this.x / other, this.y / other, this.z / other );
+        return new PVector ( this.x / other, this.y / other );
     }
 
     public static bool operator == ( PVector lhs, PVector rhs )
@@ -433,8 +336,6 @@ public class PVector : ICloneable
         if ( Math.Abs ( lhs.x - rhs.x ) > kEpsilon ) return false;
 
         if ( Math.Abs ( lhs.y - rhs.y ) > kEpsilon ) return false;
-
-        if ( Math.Abs ( lhs.z - rhs.z ) > kEpsilon ) return false;
 
         return true;
 //		return Vector.SqrMagnitude (lhs - rhs) < 9.99999944E-11f;
@@ -446,46 +347,14 @@ public class PVector : ICloneable
 //		return Vector.SqrMagnitude (lhs - rhs) >= 9.99999944E-11f;
     }
 
-
-
-
-
-    /*
-    	public Vector3 ToVector3() {
-    		return new Vector3((float)x,(float)y,(float)z);
-    	}
-    */
-
     // internal conversions
-    public static implicit operator Vector3 ( PVector myParam )
+    public static implicit operator Vector2 ( PVector myParam )
     {
-        return new Vector3 ( ( float ) myParam.x, ( float ) myParam.y, ( float ) myParam.z );
+        return new Vector2 ( myParam.x, myParam.y );
     }
-    public static implicit operator Color ( PVector colorAsVector )
-    {
-        return new Color ( ( float ) colorAsVector.x, ( float ) colorAsVector.y, ( float ) colorAsVector.z );
-	}
-	public static implicit operator Color32 ( PVector colorAsVector )
+	public static implicit operator PVector ( Vector2 vec2 )
 	{
-		return new Color32 ( ( byte ) ( colorAsVector.x * 255 ), ( byte ) ( colorAsVector.y * 255 ), ( byte ) ( colorAsVector.z * 255 ), 255 );
-	}
-	public static implicit operator Single[] ( PVector vector )
-	{
-		return new Single[] { (Single)vector.x, (Single)vector.y, (Single)vector.z };
-	}
-
-
-    public static implicit operator PVector ( double[] myParam )
-    {
-        return new PVector ( myParam[ 0 ], myParam[ 1 ], myParam[ 2 ] );
-    }
-	public static implicit operator PVector ( Vector3 vec3 )
-	{
-		return new PVector ( vec3 );
-	}
-	public static implicit operator PVector ( Color color )
-	{
-		return new PVector ( color );
+		return new PVector ( vec2 );
 	}
 
 }

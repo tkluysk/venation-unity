@@ -154,7 +154,7 @@ class VenationAlgorithm
             if ( result == null )
                 result = new PVector();
 
-            result.Add ( p );
+            result.add ( p );
         }
 
         if ( result != null ) {
@@ -296,7 +296,7 @@ class VenationAlgorithm
 
             p.mult ( 2 * _veinNodeRadius );
             //p.rotate((2 * random(1) - 1) * 2 * PI * 0.05); // jitter
-            p.Add ( seedVeinNode.getPositionRef() );
+            p.add ( seedVeinNode.getPositionRef() );
             veinNode = new VeinNode ( p );
             _graph.AddVertex ( veinNode );
             _graph.AddEdge ( seedVeinNode, veinNode );
