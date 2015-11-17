@@ -130,7 +130,7 @@ public class VenationAlgorithm
         List<VeinNode> veinNodes = getRelativeNeighborVeinNodes ( auxin );
 
         for ( int i = 0; i < veinNodes.Count; i++ ) {
-            veinNode = veinNodes.get ( i );
+            veinNode = veinNodes[i];
             veinNodePos = veinNode.getPositionRef();
 
             if ( PVector.sub ( veinNodePos, auxinPos ).mag() < _killRadius ) {
@@ -159,7 +159,7 @@ public class VenationAlgorithm
 
         if ( result != null ) {
             if ( result.mag() < 1 ) {
-                Auxin auxin = auxinInfluencers.get ( 0 );
+                Auxin auxin = auxinInfluencers[0];
                 p = auxin.getPosition();
                 p.sub ( veinNode.getPositionRef() );
                 p.normalize();
@@ -311,7 +311,7 @@ public class VenationAlgorithm
         float dist;
 
         for ( int i = 0; i < _auxins.Count; i++ ) {
-            auxin = _auxins.get ( i );
+            auxin = _auxins[i];
             auxinPos = auxin.getPositionRef();
 
             if ( auxin.isDoomed() ) {
@@ -319,7 +319,7 @@ public class VenationAlgorithm
                 List<VeinNode> taggedVeinNodes = auxin.getTaggedVeinNodesRef();
 
                 for ( int j = 0; j < taggedVeinNodes.Count; j++ ) {
-                    veinNode = taggedVeinNodes.get ( j );
+                    veinNode = taggedVeinNodes[j];
                     veinNodePos = veinNode.getPositionRef();
                     // FIXME: Inefficient because of PVector instantiation.
                     dist = PVector.sub ( veinNodePos, auxinPos ).mag();
