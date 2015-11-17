@@ -49,7 +49,7 @@ public class Venation: MonoBehaviour
     {
 		if ( !draw ) return;
 
-//        background ( 255 );
+		va.step();
 		renderer.draw ( glLineMaterial );
         
         draw = false;
