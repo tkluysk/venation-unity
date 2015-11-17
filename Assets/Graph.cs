@@ -10,11 +10,11 @@ public class Graph
 		vertices = new List<Point>();
     }
 	
-	public void addVertex ( Point vertex )
+	public void AddVertex ( Point vertex )
 	{
 		vertices.Add ( vertex );
 	}
-	public void addEdge ( Point vertex1, Point vertex2 )
+	public void AddEdge ( Point vertex1, Point vertex2 )
 	{
 		// nothing here yet
     }

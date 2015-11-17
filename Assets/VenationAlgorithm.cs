@@ -48,7 +48,7 @@ class VenationAlgorithm
 
     Auxin getAuxin ( int index )
     {
-        return _auxins.get ( index );
+        return _auxins[ index ];
     }
 
     List<Auxin> getAuxins()
@@ -58,7 +58,7 @@ class VenationAlgorithm
 
     int numAuxins()
     {
-        return _auxins.size();
+        return _auxins.Count;
     }
 
     List<VeinNode> getVeinNodes()
@@ -83,7 +83,7 @@ class VenationAlgorithm
             dy = p.y - y;
 
             if ( dx * dx + dy * dy < r )
-                neighborAuxins.add ( auxin );
+                neighborAuxins.Add ( auxin );
         }
 
         return neighborAuxins;
@@ -102,7 +102,7 @@ class VenationAlgorithm
             dy = p.y - y;
 
             if ( dx * dx + dy * dy < r )
-                neighborVeinNodes.add ( veinNode );
+                neighborVeinNodes.Add ( veinNode );
         }
 
         return neighborVeinNodes;
@@ -116,8 +116,8 @@ class VenationAlgorithm
 
         foreach ( Auxin auxin in neighborAuxins ) {
             // FIXME: getInfluencedVeinNodes gets called multiple times per auxin. Cache.
-            if ( getInfluencedVeinNodes ( auxin ).contains ( veinNode ) )
-                influencerAuxins.add ( auxin );
+            if ( getInfluencedVeinNodes ( auxin ).Contains ( veinNode ) )
+                influencerAuxins.Add ( auxin );
         }
 
         return influencerAuxins;
@@ -134,7 +134,7 @@ class VenationAlgorithm
             veinNodePos = veinNode.getPositionRef();
 
             if ( PVector.sub ( veinNodePos, auxinPos ).mag() < _killRadius ) {
-                veinNodes.remove ( i );
+                veinNodes.Remove ( i );
                 i--;
             }
         }
@@ -154,7 +154,7 @@ class VenationAlgorithm
             if ( result == null )
                 result = new PVector();
 
-            result.add ( p );
+            result.Add ( p );
         }
 
         if ( result != null ) {
@@ -207,7 +207,7 @@ class VenationAlgorithm
             }
 
             if ( !fail )
-                relNeighborVeinNodes.add ( vn0 );
+                relNeighborVeinNodes.Add ( vn0 );
         }
 
         return relNeighborVeinNodes;
@@ -252,7 +252,7 @@ class VenationAlgorithm
             x = random ( 1 );
             y = random ( 1 );
             veinNode = new VeinNode ( x, y );
-            _graph.addVertex ( veinNode );
+            _graph.AddVertex ( veinNode );
         }
     }
 
@@ -265,7 +265,7 @@ class VenationAlgorithm
             y = random ( 1 );
 
             if ( !hitTestPotentialAuxin ( x, y ) )
-                _auxins.add ( new Auxin ( x, y ) );
+                _auxins.Add ( new Auxin ( x, y ) );
         }
     }
 
@@ -296,10 +296,10 @@ class VenationAlgorithm
 
             p.mult ( 2 * _veinNodeRadius );
             //p.rotate((2 * random(1) - 1) * 2 * PI * 0.05); // jitter
-            p.add ( seedVeinNode.getPositionRef() );
+            p.Add ( seedVeinNode.getPositionRef() );
             veinNode = new VeinNode ( p );
-            _graph.addVertex ( veinNode );
-            _graph.addEdge ( seedVeinNode, veinNode );
+            _graph.AddVertex ( veinNode );
+            _graph.AddEdge ( seedVeinNode, veinNode );
         }
     }
 
@@ -324,14 +324,14 @@ class VenationAlgorithm
                     // FIXME: Inefficient because of PVector instantiation.
                     dist = PVector.sub ( veinNodePos, auxinPos ).mag();
 
-                    if ( dist < _killRadius || !influencedVeinNodes.contains ( veinNode ) ) {
-                        taggedVeinNodes.remove ( j );
+                    if ( dist < _killRadius || !influencedVeinNodes.Contains ( veinNode ) ) {
+                        taggedVeinNodes.Remove ( j );
                         j--;
                     }
                 }
 
                 if ( taggedVeinNodes.size() <= 0 ) {
-                    _auxins.remove ( i );
+                    _auxins.Remove ( i );
                     i--;
                 }
             }
@@ -344,7 +344,7 @@ class VenationAlgorithm
                         auxin.setTaggedVeinNodes ( influencedVeinNodes );
                     }
                     else {
-                        _auxins.remove ( i );
+                        _auxins.Remove ( i );
                         i--;
                     }
                 }
