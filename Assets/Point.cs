@@ -1,39 +1,41 @@
-class Point
+public class Point
 {
-    protected PVector pos;
+    protected PVector position;
 
-    Point()
+    public Point()
     {
-        pos = new PVector();
+        position = new PVector();
     }
 
-    Point ( PVector p )
+	public Point ( PVector p )
     {
-        pos = p;
+        position = p;
     }
 
-    Point ( float x, float y )
+	public Point ( float x, float y )
     {
-        pos = new PVector ( x, y );
+        position = new PVector ( x, y );
     }
 
-    PVector getPosition()
+	public PVector getPosition()
     {
-        return pos.get();
+        return new PVector ( position );
     }
 
-    PVector getPositionRef()
+	public PVector getPositionRef()
     {
-        return pos;
+        return position;
     }
 
-    void setPosition ( PVector p )
-    {
-        pos.set ( p );
+	public void setPosition ( PVector p )
+	{
+		position.x = p.x;
+		position.y = p.y;
     }
 
-    void setPosition ( float x, float y )
-    {
-        pos.set ( x, y );
+	public void setPosition ( float x, float y )
+	{
+		position.x = x;
+		position.y = y;
     }
 }

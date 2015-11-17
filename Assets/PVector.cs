@@ -281,17 +281,17 @@ public class PVector
     {
         return a.x * a.x + a.y * a.y;
     }
-
-    public static PVector operator + ( PVector a, PVector b )
+	
+	public static PVector operator + ( PVector a, PVector b )
+	{
+		return new PVector ( a.x + b.x, a.y + b.y );
+	}
+	
+    public static PVector add ( PVector a, PVector b )
     {
         return new PVector ( a.x + b.x, a.y + b.y );
     }
 
-    public PVector add ( PVector other )
-    {
-        return new PVector ( this.x + other.x, this.y + other.y );
-    }
-	
 	public static PVector operator - ( PVector a, PVector b )
 	{
 		return new PVector ( a.x - b.x, a.y - b.y );

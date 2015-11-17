@@ -8,21 +8,21 @@ class Auxin : Point
 
     Auxin()
     {
-        pos = new PVector();
+        position = new PVector();
         _isDoomed = false;
         _taggedVeinNodes = new List<VeinNode>();
     }
 
     Auxin ( PVector p )
     {
-        pos = p;
+        position = p;
         _isDoomed = false;
         _taggedVeinNodes = new List<VeinNode>();
     }
 
     Auxin ( float x, float y )
     {
-        pos = new PVector ( x, y );
+        position = new PVector ( x, y );
         _isDoomed = false;
         _taggedVeinNodes = new List<VeinNode>();
     }

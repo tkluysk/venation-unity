@@ -2,16 +2,16 @@ class VeinNode : Point
 {
     VeinNode()
     {
-        pos = new PVector();
+        position = new PVector();
     }
 
     VeinNode ( PVector p )
     {
-        pos = p;
+        position = p;
     }
 
     VeinNode ( float x, float y )
     {
-        pos = new PVector ( x, y );
+        position = new PVector ( x, y );
     }
 }
