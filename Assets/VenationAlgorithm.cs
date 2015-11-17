@@ -134,7 +134,7 @@ public class VenationAlgorithm
             veinNodePos = veinNode.getPositionRef();
 
             if ( PVector.sub ( veinNodePos, auxinPos ).mag() < _killRadius ) {
-                veinNodes.Remove ( i );
+                veinNodes.RemoveAt ( i );
                 i--;
             }
         }
