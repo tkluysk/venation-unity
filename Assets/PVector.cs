@@ -18,8 +18,14 @@ public class PVector
 		this.x = _value.x;
 		this.y = _value.y;
 	}
-
+	
 	public PVector ( Vector2 _value )
+	{
+		this.x = _value.x;
+		this.y = _value.y;
+	}
+
+	public PVector ( Vector3 _value )
 	{
 		this.x = _value.x;
 		this.y = _value.y;
@@ -346,15 +352,25 @@ public class PVector
         return ! ( lhs == rhs );
 //		return Vector.SqrMagnitude (lhs - rhs) >= 9.99999944E-11f;
     }
-
-    // internal conversions
-    public static implicit operator Vector2 ( PVector myParam )
-    {
-        return new Vector2 ( myParam.x, myParam.y );
-    }
+	
+	// internal conversions
+	public static implicit operator Vector2 ( PVector myParam )
+	{
+		return new Vector2 ( myParam.x, myParam.y );
+	}
 	public static implicit operator PVector ( Vector2 vec2 )
 	{
 		return new PVector ( vec2 );
+	}
+	
+	// internal conversions
+	public static implicit operator Vector3 ( PVector myParam )
+	{
+		return new Vector3 ( myParam.x, myParam.y, 0 );
+	}
+	public static implicit operator PVector ( Vector3 vec3 )
+	{
+		return new PVector ( vec3 );
 	}
 
 }
