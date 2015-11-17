@@ -32,10 +32,16 @@ public class Point
 		position.x = p.x;
 		position.y = p.y;
     }
-
+	
 	public void setPosition ( float x, float y )
 	{
 		position.x = x;
 		position.y = y;
-    }
+	}
+
+	public string ToString ()
+	{
+		return string.Format ( "({0:F1}, {1:F1})", position.x, position.y );
+	}
+
 }

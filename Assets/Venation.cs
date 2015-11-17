@@ -8,33 +8,26 @@ public class Venation: MonoBehaviour
 	bool draw;
 	
 	public Material glLineMaterial;
-
     
 	// this boots the app, which creates the JsonRPC server,
 	// which in turn creates the Scene instances (one for every browser session)
 	void Awake()
 	{
-//		size ( 800, 800 );
-		
-		glLineMaterial = Resources.Load ( "GlLineMat", typeof ( Material ) ) as Material;
-
+//		glLineMaterial = Resources.Load ( "GlLineMat", typeof ( Material ) ) as Material;
         Reset();
-		draw = true;
     }
     
-	void Start ()
-	{
-	}
-	
 	void Reset()
 	{
 		va = new VenationAlgorithm();
 		//	renderer = new VenationRenderer ( va, this.g, width );
 		renderer = new SimpleRenderer ( va, Screen.height );
+		draw = true;
 	}
 	
 	void Update ()
 	{
+		draw = true;
 //		switch ( key ) {
 //		case 'e':
 //			reset();
@@ -51,7 +44,6 @@ public class Venation: MonoBehaviour
 //            break;
 //        }
     }
-    
     
     public void OnPostRender()
     {

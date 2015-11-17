@@ -1,3 +1,4 @@
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -12,7 +13,10 @@ public class Graph
 	
 	public void AddVertex ( Point vertex )
 	{
-		vertices.Add ( (VeinNode)vertex );
+		Debug.Log ( "Point " + vertex.ToString() );
+		VeinNode node = new VeinNode ( vertex.getPosition() );
+		Debug.Log ( "AddVertex " + node.ToString() );
+		vertices.Add ( node );
 	}
 	public void AddEdge ( Point vertex1, Point vertex2 )
 	{
