@@ -24,7 +24,7 @@ class VenationAlgorithm
         _veinNodeRadius = 0.0125;
         _killRadius = 0.025;
         _neighborhoodRadius = 0.1;
-        _graph = new SimpleGraph ( DefaultEdge.class );
+        _graph = new Graph();
         seedVeinNodes();
         seedAuxins();
     }
@@ -61,14 +61,14 @@ class VenationAlgorithm
         return _auxins.size();
     }
 
-    Set<VeinNode> getVeinNodes()
+    List<VeinNode> getVeinNodes()
     {
-        return _graph.vertexSet();
+        return _graph.vertices;
     }
 
     int numVeinNodes()
     {
-        return _graph.vertexSet().size();
+        return _graph.points.Count;
     }
 
     List<Auxin> getNeighborAuxins ( float x, float y )
@@ -94,7 +94,7 @@ class VenationAlgorithm
         float dx, dy, r = 4.0 * _neighborhoodRadius * _neighborhoodRadius;
         PVector p;
         List<VeinNode> neighborVeinNodes = new List<VeinNode>();
-        Set<VeinNode> veinNodes = _graph.vertexSet();
+        List<VeinNode> veinNodes = _graph.points;
 
         foreach ( VeinNode veinNode in veinNodes ) {
             p = veinNode.getPositionRef();
@@ -218,7 +218,7 @@ class VenationAlgorithm
         VeinNode candidate = null;
         PVector p;
         float dx, dy, distSq, candidateDistSq = 0;
-        Set<VeinNode> veinNodes = _graph.vertexSet();
+        List<VeinNode> veinNodes = _graph.points;
 
         foreach ( VeinNode veinNode in veinNodes ) {
             p = veinNode.getPositionRef();
@@ -272,7 +272,7 @@ class VenationAlgorithm
     void placeVeinNodes()
     {
         // Make sure we don't iterate newly-placed vein nodes.
-        Object[] veinNodes = _graph.vertexSet().toArray();
+        Object[] veinNodes = _graph.points.ToArray();
         int count = veinNodes.length;
 
         for ( int i = 0; i < count; i++ ) {
@@ -360,7 +360,7 @@ class VenationAlgorithm
         float dx, dy, r;
         PVector p;
         r = _killRadius * _killRadius;
-        Set<VeinNode> veinNodes = _graph.vertexSet();
+        List<VeinNode> veinNodes = _graph.points;
 
         foreach ( VeinNode veinNode in veinNodes ) {
             p = veinNode.getPositionRef();
@@ -393,7 +393,7 @@ class VenationAlgorithm
         }
 
         r = _killRadius * _killRadius;
-        Set<VeinNode> veinNodes = _graph.vertexSet();
+        List<VeinNode> veinNodes = _graph.points;
 
         foreach ( VeinNode veinNode in veinNodes ) {
             p = veinNode.getPositionRef();
