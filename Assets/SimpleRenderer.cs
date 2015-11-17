@@ -5,16 +5,18 @@ using System.Collections.Generic;
 class SimpleRenderer
 {
 	private VenationAlgorithm venationAlgorithm;
-    private float size;
+	private Venation venation;
+	private float scale;
 
-	public SimpleRenderer ( VenationAlgorithm venationAlgorithm, int size )
-    {
+	public SimpleRenderer ( Venation venation, VenationAlgorithm venationAlgorithm )
+	{
 		this.venationAlgorithm = venationAlgorithm;
-        this.size = size;
+		this.venation = venation;
+		scale = Screen.width * venation.auxinRadius;  // assumes square aspect
     }
 
-    public void draw ( Material lineMaterial )
-	{
+	public void draw ( Material lineMaterial, float veinThickness, Color veinColor )
+    {
 		PVector p;
 		List<VeinNode> veinNodes = venationAlgorithm.getVeinNodes();
 		List<Edge> veinEdges = venationAlgorithm.getVeinEdges();
@@ -25,26 +27,29 @@ class SimpleRenderer
 		GL.PushMatrix();
 		GL.LoadPixelMatrix();
 		GL.Begin ( GL.LINES );
-		GL.Color ( Color.red );
 		
-		foreach ( VeinNode veinNode in veinNodes ) {
-			p = veinNode.getPosition() * size;
-//			Debug.Log ( "drawing node " + p.x + " " + p.y );
-			MiscUtil.GLDrawCircle ( p, 2.0f );
-		}
-		
-		GL.Color ( Color.black );
-		
-//		foreach ( Edge edge in veinEdges ) {
-//			MiscUtil.GLDrawLine ( edge.v1.position, edge.v2.position );
-//        }
-
+		GL.Color ( new Color( 0, 0, 0, .2f ) );
 		foreach ( Auxin auxin in venationAlgorithm.auxins ) {
-			p = auxin.getPosition() * size;
-//			Debug.Log ( "drawing auxin " + p.x + " " + p.y );
-			MiscUtil.GLDrawCross ( p, 1.0f );
-//			MiscUtil.GLDrawDot ( p );
+			MiscUtil.GLDrawCircle ( auxin.screenPosition, scale );
+			//			MiscUtil.GLDrawCross ( auxin.screenPosition, 1.0f );
+            //			MiscUtil.GLDrawDot ( p );
         }
+
+//		GL.Color ( Color.red );
+//		foreach ( VeinNode veinNode in veinNodes ) {
+//			MiscUtil.GLDrawCross ( veinNode.screenPosition, 1.0f );
+////			MiscUtil.GLDrawCircle ( p, 2.0f );
+//		}
+
+		GL.End();
+        GL.Begin ( GL.QUADS );
+        float frame = Time.frameCount - Venation.startFrame;
+		foreach ( Edge edge in veinEdges ) {
+			GL.Color ( new Color( veinColor.r, veinColor.g, veinColor.b, 1 - edge.timeStamp / frame ) );
+//			MiscUtil.GLDrawLine ( edge.v1.screenPosition, edge.v2.screenPosition );
+			MiscUtil.GLDrawEdge ( edge, veinThickness*(frame - edge.timeStamp)/50 );
+        }
+
         
         GL.End();
 		GL.PopMatrix();

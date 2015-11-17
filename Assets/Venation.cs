@@ -15,6 +15,11 @@ public class Venation: MonoBehaviour
 	public float veinNodeRadius;
 	public float killRadius;
 	public float neighborhoodRadius;
+	public float veinThickness;
+	public Camera camera;
+	public Color[] backgroundColors;
+	public Color[] veinColors;
+	public Color veinColor;
 
 	public static int startFrame;
     
@@ -25,42 +30,50 @@ public class Venation: MonoBehaviour
 //		glLineMaterial = Resources.Load ( "GlLineMat", typeof ( Material ) ) as Material;
 		draw = false;
     }
-	
-	void RandomSeeds()
+
+	void Reset()
+	{
+		renderer = new SimpleRenderer ( this, venationAlgorithm );
+		startFrame = Time.frameCount;
+		int colorIndex = Random.Range(0,4);
+		camera.backgroundColor = backgroundColors[colorIndex];
+		veinColor = veinColors[colorIndex];
+		draw = true;
+    }
+    
+    void RandomSeeds()
 	{
 		venationAlgorithm = new VenationAlgorithm ( nrOfSeeds, maxAuxins, auxinRadius, veinNodeRadius, killRadius, neighborhoodRadius );
-		//	renderer = new VenationRenderer ( va, this.g, width );
-		renderer = new SimpleRenderer ( venationAlgorithm, Screen.height );
-		startFrame = Time.frameCount;
-        draw = true;
+		Reset ();
 	}
 
 	void MouseSeed()
 	{
 		venationAlgorithm = new VenationAlgorithm ( maxAuxins, auxinRadius, veinNodeRadius, killRadius, neighborhoodRadius );
-		//	renderer = new VenationRenderer ( va, this.g, width );
-		renderer = new SimpleRenderer ( venationAlgorithm, Screen.height );
-		startFrame = Time.frameCount;
-        draw = true;
+		Reset ();
     }
     
     void Update ()
 	{
+
 		if ( Input.GetKeyDown ( KeyCode.Space ) )
 			RandomSeeds ();
 
 		if ( Input.GetKeyDown ( KeyCode.Mouse0 ) )
 			MouseSeed ();
 
-		if ( draw )
+		if ( draw ) {
 			venationAlgorithm.step();
+			if ( venationAlgorithm.auxins.Count == 0 )
+                startFrame++;
+		}
     }
     
     public void OnPostRender()
     {
 		if ( !draw ) return;
 
-		renderer.draw ( glLineMaterial );
+		renderer.draw ( glLineMaterial, veinThickness, veinColor );
 	}
 	
 }
