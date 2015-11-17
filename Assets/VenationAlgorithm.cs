@@ -5,6 +5,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
+
+//import java.util.Set;
+
 class VenationAlgorithm
 {
     List<Auxin> _auxins;
@@ -319,7 +322,7 @@ class VenationAlgorithm
                     veinNode = taggedVeinNodes.get ( j );
                     veinNodePos = veinNode.getPositionRef();
                     // FIXME: Inefficient because of PVector instantiation.
-                    dist = ( veinNodePos - auxinPos ).magnitude;
+                    dist = PVector.sub ( veinNodePos, auxinPos ).mag();
 
                     if ( dist < _killRadius || !influencedVeinNodes.Contains ( veinNode ) ) {
                         taggedVeinNodes.Remove ( j );
