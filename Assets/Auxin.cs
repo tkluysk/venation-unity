@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 class Auxin : Point
 {
-    private boolean _isDoomed;
+    private bool _isDoomed;
     private List<VeinNode> _taggedVeinNodes;
 
     Auxin()
@@ -27,12 +27,12 @@ class Auxin : Point
         _taggedVeinNodes = new List<VeinNode>();
     }
 
-    boolean isDoomed()
+    bool isDoomed()
     {
         return _isDoomed;
     }
 
-    void setDoomed ( boolean b )
+    void setDoomed ( bool b )
     {
         _isDoomed = b;
     }
@@ -42,7 +42,7 @@ class Auxin : Point
         return _taggedVeinNodes;
     }
 
-    boolean hasTaggedVeinNodes()
+    bool hasTaggedVeinNodes()
     {
         return _taggedVeinNodes.size() > 0;
     }

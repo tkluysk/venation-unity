@@ -175,7 +175,7 @@ class VenationAlgorithm
     List<VeinNode> getRelativeNeighborVeinNodes ( Auxin auxin )
     {
         // FIXME: Inefficient because of instantiation of PVectors.
-        boolean fail;
+        bool fail;
         PVector p0, p1, auxinPos = auxin.getPositionRef();
         PVector auxinToP0, auxinToP1, p0ToP1;
         // Limit search to the neighborhood of the auxin.
@@ -355,7 +355,7 @@ class VenationAlgorithm
     /**
         x and y are in [0,1]
     */
-    private boolean hitTestExistingAuxin ( float x, float y )
+    private bool hitTestExistingAuxin ( float x, float y )
     {
         float dx, dy, r;
         PVector p;
@@ -377,7 +377,7 @@ class VenationAlgorithm
     /**
         x and y are in [0,1]
     */
-    private boolean hitTestPotentialAuxin ( float x, float y )
+    private bool hitTestPotentialAuxin ( float x, float y )
     {
         float dx, dy, r;
         PVector p;
