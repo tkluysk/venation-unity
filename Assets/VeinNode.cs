@@ -1,13 +1,17 @@
-class VeinNode : Point {
-  VeinNode() {
-    pos = new PVector();
-  }
+class VeinNode : Point
+{
+    VeinNode()
+    {
+        pos = new PVector();
+    }
 
-  VeinNode(PVector p) {
-    pos = p;
-  }
+    VeinNode ( PVector p )
+    {
+        pos = p;
+    }
 
-  VeinNode(float x, float y) {
-    pos = new PVector(x, y);
-  }
+    VeinNode ( float x, float y )
+    {
+        pos = new PVector ( x, y );
+    }
 }
