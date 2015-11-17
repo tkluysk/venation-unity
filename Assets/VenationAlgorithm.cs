@@ -129,7 +129,7 @@ class VenationAlgorithm
         PVector veinNodePos, auxinPos = auxin.getPositionRef();
         List<VeinNode> veinNodes = getRelativeNeighborVeinNodes ( auxin );
 
-        for ( int i = 0; i < veinNodes.size(); i++ ) {
+        for ( int i = 0; i < veinNodes.Count; i++ ) {
             veinNode = veinNodes.get ( i );
             veinNodePos = veinNode.getPositionRef();
 
@@ -260,7 +260,7 @@ class VenationAlgorithm
     {
         float x, y;
 
-        for ( int i = 0; i < 1000 && _auxins.size() < 200; i++ ) {
+        for ( int i = 0; i < 1000 && _auxins.Count < 200; i++ ) {
             x = random ( 1 );
             y = random ( 1 );
 
@@ -310,7 +310,7 @@ class VenationAlgorithm
         PVector auxinPos, veinNodePos;
         float dist;
 
-        for ( int i = 0; i < _auxins.size(); i++ ) {
+        for ( int i = 0; i < _auxins.Count; i++ ) {
             auxin = _auxins.get ( i );
             auxinPos = auxin.getPositionRef();
 
@@ -318,7 +318,7 @@ class VenationAlgorithm
                 List<VeinNode> influencedVeinNodes = getInfluencedVeinNodes ( auxin );
                 List<VeinNode> taggedVeinNodes = auxin.getTaggedVeinNodesRef();
 
-                for ( int j = 0; j < taggedVeinNodes.size(); j++ ) {
+                for ( int j = 0; j < taggedVeinNodes.Count; j++ ) {
                     veinNode = taggedVeinNodes.get ( j );
                     veinNodePos = veinNode.getPositionRef();
                     // FIXME: Inefficient because of PVector instantiation.
@@ -330,7 +330,7 @@ class VenationAlgorithm
                     }
                 }
 
-                if ( taggedVeinNodes.size() <= 0 ) {
+                if ( taggedVeinNodes.Count <= 0 ) {
                     _auxins.Remove ( i );
                     i--;
                 }
@@ -339,7 +339,7 @@ class VenationAlgorithm
                 if ( hitTestExistingAuxin ( auxinPos.x, auxinPos.y ) ) {
                     List<VeinNode> influencedVeinNodes = getInfluencedVeinNodes ( auxin );
 
-                    if ( influencedVeinNodes.size() > 1 ) {
+                    if ( influencedVeinNodes.Count > 1 ) {
                         auxin.setDoomed ( true );
                         auxin.setTaggedVeinNodes ( influencedVeinNodes );
                     }

@@ -44,7 +44,7 @@ class Auxin : Point
 
     bool hasTaggedVeinNodes()
     {
-        return _taggedVeinNodes.size() > 0;
+        return _taggedVeinNodes.Count > 0;
     }
 
     void setTaggedVeinNodes ( List<VeinNode> veinNodes )

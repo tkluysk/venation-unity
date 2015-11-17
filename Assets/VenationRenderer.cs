@@ -148,7 +148,7 @@ class VenationRenderer
 //        PVector auxinPos;
 //
 //        foreach ( Auxin auxin in _va.getAuxins() ) {
-//            if ( _va.getRelativeNeighborVeinNodes ( auxin ).size() > 1 ) {
+//            if ( _va.getRelativeNeighborVeinNodes ( auxin ).Count > 1 ) {
 //                auxinPos = auxin.getPositionRef();
 //                _g.noStroke();
 //                _g.fill ( 128 );
