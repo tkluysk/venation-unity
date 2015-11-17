@@ -17,9 +17,10 @@ void draw()
 
 void reset()
 {
-    va = new VenationAlgorithm();
-    renderer = new VenationRenderer ( va, this.g, width );
-    fileNamer = new FileNamer ( folderNamer.next() + "frame", "gif" );
+	va = new VenationAlgorithm();
+	renderer = new SimpleRenderer ( va, this.g, width );
+//	renderer = new VenationRenderer ( va, this.g, width );
+//    fileNamer = new FileNamer ( folderNamer.next() + "frame", "gif" );
 }
 
 void redraw()
