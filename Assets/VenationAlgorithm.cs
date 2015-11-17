@@ -12,12 +12,7 @@ using System.Collections.Generic;
 
 public class VenationAlgorithm
 {
-    List<Auxin> _auxins;
-    float _auxinRadius;
-    float _veinNodeRadius;
-    float _killRadius;
-    float _neighborhoodRadius;
-    Graph _graph;
+	Dictionary<Auxin,List<VeinNode>> influencedNodes;
 
     public VenationAlgorithm()
     {
@@ -122,8 +117,7 @@ public class VenationAlgorithm
         List<Auxin> influencerAuxins = new List<Auxin>();
 
         foreach ( Auxin auxin in neighborAuxins ) {
-            // FIXME: getInfluencedVeinNodes gets called multiple times per auxin. Cache.
-            if ( getInfluencedVeinNodes ( auxin ).Contains ( veinNode ) )
+			if ( influencedNodes[ auxin ].Contains ( veinNode ) )
                 influencerAuxins.Add ( auxin );
         }
 
@@ -151,20 +145,20 @@ public class VenationAlgorithm
 
     PVector getAuxinInfluenceDirection ( VeinNode veinNode, List<Auxin> auxinInfluencers )
     {
-        PVector p, result = null;
+		PVector p;
+		PVector result = new PVector();
 
         foreach ( Auxin auxin in auxinInfluencers ) {
             p = auxin.getPosition();
             p.sub ( veinNode.getPositionRef() );
             p.normalize();
 
-            if ( result == null )
-                result = new PVector();
-
             result.add ( p );
         }
 
-        if ( result != null ) {
+//		Debug.Log ( auxinInfluencers.Count );
+
+		if ( auxinInfluencers.Count > 0 ) {
             if ( result.mag() < 1 ) {
                 Auxin auxin = auxinInfluencers[0];
                 p = auxin.getPosition();
@@ -176,7 +170,7 @@ public class VenationAlgorithm
                 result.normalize();
         }
 
-        return result;
+    	return result;
     }
 
     List<VeinNode> getRelativeNeighborVeinNodes ( Auxin auxin )
@@ -282,6 +276,10 @@ public class VenationAlgorithm
         System.Object[] veinNodes = _graph.vertices.ToArray();
         int count = veinNodes.Length;
 
+		influencedNodes = new Dictionary<Auxin, List<VeinNode>>();
+		foreach ( Auxin auxin in auxins )
+			influencedNodes.Add ( auxin, getInfluencedVeinNodes ( auxin ) );
+                
         for ( int i = 0; i < count; i++ ) {
             VeinNode veinNode = ( VeinNode ) veinNodes[i];
             placeVeinNode ( veinNode );
@@ -294,7 +292,7 @@ public class VenationAlgorithm
         List<Auxin> influencerAuxins = getInfluencerAuxins ( seedVeinNode );
         PVector p = getAuxinInfluenceDirection ( seedVeinNode, influencerAuxins );
 
-        if ( p != null ) {
+        if ( p != PVector.zero ) {
             if ( p.mag() <= 0 ) {
                 p.x = 1;
                 p.y = 0;
