@@ -5,14 +5,15 @@ public class Venation: MonoBehaviour
 	VenationAlgorithm va;
 //	VenationRenderer renderer;
 	SimpleRenderer renderer;
+	bool draw;
 
 	// this boots the app, which creates the JsonRPC server,
 	// which in turn creates the Scene instances (one for every browser session)
 	void Awake()
 	{
-		size ( 800, 800 );
-		reset();
-        redraw();
+//		size ( 800, 800 );
+		Reset();
+		draw = true;
     }
     
 	void Start ()
@@ -31,12 +32,12 @@ public class Venation: MonoBehaviour
 		switch ( key ) {
 		case 'e':
 			reset();
-			redraw();
+			draw = true;
 			break;
 			
 		case ' ':
 			va.step();
-			redraw();
+			draw = true;
 			break;
 			
 		case 'r':
@@ -48,12 +49,13 @@ public class Venation: MonoBehaviour
     
     public void OnPostRender()
     {
-        
-        background ( 255 );
-        renderer.draw();
-        
-        return;
+		if ( !draw ) return;
 
+//        background ( 255 );
+        renderer.draw();
+
+		draw = false;
+        
 //		mmMatrix4 gridMatrix = mmMatrix4.identity;
 //		gridMatrix.SetTranslation ( gridOrigin.x, gridOrigin.y, gridOrigin.z );
 //		gridMatrix *= rotationMatrix;
