@@ -348,8 +348,7 @@ public class PVector
 	{
 		return new PVector ( vec2 );
 	}
-	
-	// internal conversions
+
 	public static implicit operator Vector3 ( PVector myParam )
 	{
 		return new Vector3 ( myParam.x, myParam.y, 0 );

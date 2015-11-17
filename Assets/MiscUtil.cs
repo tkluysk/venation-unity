@@ -19,15 +19,25 @@ public class MiscUtil
         GL.Vertex3 ( x + radius, y - radius, zee );
         GL.Vertex3 ( x + radius, y - radius, zee );
         GL.Vertex3 ( x - radius, y - radius - 1, zee );
-    }
+	}
+	
+	public static void GLDrawEdge ( Edge edge, float thickness )
+	{
+		float perpX = thickness * edge.perpendicular.x;
+		float perpY = thickness * edge.perpendicular.y;
+		GL.Vertex3 ( edge.v1.screenPosition.x + perpX, edge.v1.screenPosition.y + perpY, zee );
+		GL.Vertex3 ( edge.v2.screenPosition.x + perpX, edge.v2.screenPosition.y + perpY, zee );
+		GL.Vertex3 ( edge.v2.screenPosition.x - perpX, edge.v2.screenPosition.y - perpY, zee );
+		GL.Vertex3 ( edge.v1.screenPosition.x - perpX, edge.v1.screenPosition.y - perpY, zee );
+	}
 	
 	public static void GLDrawLine ( Vector3 from, Vector3 to )
 	{
 		GL.Vertex3 ( from.x, from.y, zee );
 		GL.Vertex3 ( to.x, to.y, zee );
-	}
-	
-	public static void GLDrawDot ( Vector3 position )
+    }
+    
+    public static void GLDrawDot ( Vector3 position )
 	{
 		GL.Vertex3 ( position.x - .5f, position.y - .5f, zee );
 		GL.Vertex3 ( position.x + .5f, position.y + .5f, zee );

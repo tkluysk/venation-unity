@@ -34,7 +34,7 @@ class VenationRenderer
 //        Set<VeinNode> veinNodes = _va.getVeinNodes();
 //
 //        foreach ( VeinNode veinNode in veinNodes ) {
-//            p = veinNode.getPositionRef();
+//            p = veinNode.position;
 //            _g.ellipse ( _size * p.x, _size * p.y, 2 * r, 2 * r );
 //        }
 //    }
@@ -48,7 +48,7 @@ class VenationRenderer
 //        List<Auxin> auxins = _va.getAuxins();
 //
 //        foreach ( Auxin auxin in auxins ) {
-//            p = auxin.getPositionRef();
+//            p = auxin.position;
 //
 //            if ( auxin.isDoomed() )
 //                _g.fill ( 255, 128, 128 );
@@ -69,7 +69,7 @@ class VenationRenderer
 //        Set<VeinNode> veinNodes = _va.getVeinNodes();
 //
 //        foreach ( VeinNode veinNode in veinNodes ) {
-//            p = veinNode.getPositionRef();
+//            p = veinNode.position;
 //            _g.ellipse ( _size * p.x, _size * p.y, 2 * r, 2 * r );
 //        }
 //    }
@@ -84,11 +84,11 @@ class VenationRenderer
 //    {
 //        float r = _va.getAuxinRadius() * _size;
 //        PVector p;
-//        PVector veinNodePos = veinNode.getPositionRef();
+//        PVector veinNodePos = veinNode.position;
 //        List<Auxin> neighborAuxins = _va.getNeighborAuxins ( veinNodePos.x, veinNodePos.y );
 //
 //        foreach ( Auxin auxin in neighborAuxins ) {
-//            p = auxin.getPositionRef();
+//            p = auxin.position;
 //            _g.stroke ( 255, 192, 192 );
 //            _g.strokeWeight ( 1 );
 //            _g.noFill();
@@ -106,11 +106,11 @@ class VenationRenderer
 //    {
 //        float r = _va.getAuxinRadius() * _size * 0.6;
 //        PVector p;
-//        PVector veinNodePos = veinNode.getPositionRef();
+//        PVector veinNodePos = veinNode.position;
 //        List<Auxin> influencerAuxins = _va.getInfluencerAuxins ( veinNode );
 //
 //        foreach ( Auxin auxin in influencerAuxins ) {
-//            p = auxin.getPositionRef();
+//            p = auxin.position;
 //            _g.stroke ( 255, 128, 128 );
 //            _g.strokeWeight ( 2 );
 //            _g.noFill();
@@ -149,7 +149,7 @@ class VenationRenderer
 //
 //        foreach ( Auxin auxin in _va.getAuxins() ) {
 //            if ( _va.getRelativeNeighborVeinNodes ( auxin ).Count > 1 ) {
-//                auxinPos = auxin.getPositionRef();
+//                auxinPos = auxin.position;
 //                _g.noStroke();
 //                _g.fill ( 128 );
 //                _g.ellipse ( _size * auxinPos.x, _size * auxinPos.y, 10, 10 );

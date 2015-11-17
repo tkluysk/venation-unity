@@ -5,3 +5,5 @@
 /venation-unity-csharp.sln
 /venation-unity.sln
 /venation-unity.userprefs
+*.unityproj
+*.csproj

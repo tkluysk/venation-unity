@@ -1,3 +1,4 @@
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -9,20 +10,23 @@ public class Auxin : Point
 	public Auxin()
     {
         position = new PVector();
+		screenPosition = Vector3.zero;
         _isDoomed = false;
         _taggedVeinNodes = new List<VeinNode>();
     }
 
 	public Auxin ( PVector p )
     {
-        position = p;
+		position = p;
+		screenPosition = new Vector3 ( p.x * Screen.width, p.y * Screen.height, 0 );
         _isDoomed = false;
         _taggedVeinNodes = new List<VeinNode>();
     }
 
     public Auxin ( float x, float y )
     {
-        position = new PVector ( x, y );
+		position = new PVector ( x, y );
+		screenPosition = new Vector3 ( x * Screen.width, y * Screen.height, 0 );
         _isDoomed = false;
         _taggedVeinNodes = new List<VeinNode>();
     }
