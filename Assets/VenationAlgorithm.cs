@@ -14,72 +14,105 @@ public class VenationAlgorithm
 {
 	Dictionary<Auxin,List<VeinNode>> influencedNodes;
 
-    public VenationAlgorithm()
-    {
-        _auxins = new List<Auxin>();
-        _auxinRadius = 0.025f;
-        _veinNodeRadius = 0.0125f;
-        _killRadius = 0.025f;
-        _neighborhoodRadius = 0.1f;
-        _graph = new Graph();
-        seedVeinNodes();
+
+	public List<Auxin> auxins;
+	int nrOfSeeds;
+	int maxAuxins;
+    float auxinRadius;
+    float veinNodeRadius;
+    float killRadius;
+    float neighborhoodRadius;
+    Graph graph;
+
+	
+	public VenationAlgorithm ( int nrOfSeeds, int maxAuxins, float auxinRadius, float veinNodeRadius, float killRadius, float neighborhoodRadius )
+	{		
+		this.nrOfSeeds = nrOfSeeds;
+		this.maxAuxins = maxAuxins;
+		this.auxinRadius = auxinRadius;
+		this.veinNodeRadius = veinNodeRadius;
+		this.killRadius = killRadius;
+		this.neighborhoodRadius = neighborhoodRadius;
+		
+		auxins = new List<Auxin>();
+		
+		graph = new Graph();
+		seedVeinNodes();
         seedAuxins();
+	}
+
+	// Using mouse
+	public VenationAlgorithm ( int maxAuxins, float auxinRadius, float veinNodeRadius, float killRadius, float neighborhoodRadius )
+	{		
+		this.maxAuxins = maxAuxins;
+		this.auxinRadius = auxinRadius;
+		this.veinNodeRadius = veinNodeRadius;
+		this.killRadius = killRadius;
+		this.neighborhoodRadius = neighborhoodRadius;
+		
+		auxins = new List<Auxin>();
+		
+		graph = new Graph();
+
+		graph.AddVertex ( new VeinNode ( Input.mousePosition.x/Screen.width, Input.mousePosition.y/Screen.height ) );
+
+		seedAuxins();
     }
-
+    
     /// Accessors
-
+    
     float getAuxinRadius()
     {
-        return _auxinRadius;
+        return auxinRadius;
     }
 
     float getVeinNodeRadius()
     {
-        return _veinNodeRadius;
+        return veinNodeRadius;
     }
 
     float getKillRadius()
     {
-        return _killRadius;
+        return killRadius;
     }
 
     Auxin getAuxin ( int index )
     {
-        return _auxins[ index ];
+        return auxins[ index ];
     }
 
     List<Auxin> getAuxins()
     {
-        return _auxins;
+        return auxins;
     }
 
     int numAuxins()
     {
-        return _auxins.Count;
+        return auxins.Count;
     }
-
-    public List<VeinNode> getVeinNodes()
-    {
-        return _graph.vertices;
+	
+	public List<VeinNode> getVeinNodes()
+	{
+		return graph.vertices;
 	}
 
 	public List<Edge> getVeinEdges()
 	{
 		return graph.edges;
-    }
-
+	}
+    
     int numVeinNodes()
     {
-        return _graph.vertices.Count;
+        return graph.vertices.Count;
     }
 
     List<Auxin> getNeighborAuxins ( float x, float y )
     {
-        float dx, dy, r = 4.0f * _neighborhoodRadius * _neighborhoodRadius;
+        float dx, dy, r = 4.0f * neighborhoodRadius * neighborhoodRadius;
         PVector p;
         List<Auxin> neighborAuxins = new List<Auxin>();
 
-        foreach ( Auxin auxin in _auxins ) {
+        foreach ( Auxin auxin in auxins ) {
             p = auxin.getPositionRef();
             dx = p.x - x;
             dy = p.y - y;
@@ -93,10 +126,10 @@ public class VenationAlgorithm
 
     List<VeinNode> getNeighborVeinNodes ( float x, float y )
     {
-        float dx, dy, r = 4.0f * _neighborhoodRadius * _neighborhoodRadius;
+        float dx, dy, r = 4.0f * neighborhoodRadius * neighborhoodRadius;
         PVector p;
         List<VeinNode> neighborVeinNodes = new List<VeinNode>();
-        List<VeinNode> veinNodes = _graph.vertices;
+        List<VeinNode> veinNodes = graph.vertices;
 
         foreach ( VeinNode veinNode in veinNodes ) {
             p = veinNode.getPositionRef();
@@ -134,7 +167,7 @@ public class VenationAlgorithm
             veinNode = veinNodes[i];
             veinNodePos = veinNode.getPositionRef();
 
-            if ( PVector.sub ( veinNodePos, auxinPos ).mag() < _killRadius ) {
+            if ( PVector.sub ( veinNodePos, auxinPos ).mag() < killRadius ) {
                 veinNodes.RemoveAt ( i );
                 i--;
             }
@@ -219,7 +252,7 @@ public class VenationAlgorithm
         VeinNode candidate = null;
         PVector p;
         float dx, dy, distSq, candidateDistSq = 0;
-        List<VeinNode> veinNodes = _graph.vertices;
+        List<VeinNode> veinNodes = graph.vertices;
 
         foreach ( VeinNode veinNode in veinNodes ) {
             p = veinNode.getPositionRef();
@@ -238,7 +271,7 @@ public class VenationAlgorithm
 
     /// Algorithm
 
-    void step()
+    public void step()
     {
         placeVeinNodes();
         killAuxins();
@@ -249,11 +282,11 @@ public class VenationAlgorithm
         float x, y;
         VeinNode veinNode;
 
-        for ( int i = 0; i < 3; i++ ) {
+		for ( int i = 0; i < nrOfSeeds; i++ ) {
 			x = UnityEngine.Random.Range(0.0f,1.0f);
 			y = UnityEngine.Random.Range(0.0f,1.0f);
             veinNode = new VeinNode ( x, y );
-            _graph.AddVertex ( veinNode );
+            graph.AddVertex ( veinNode );
         }
     }
 
@@ -261,19 +294,19 @@ public class VenationAlgorithm
     {
         float x, y;
 
-        for ( int i = 0; i < 1000 && _auxins.Count < 200; i++ ) {
+        for ( int i = 0; i < 100000 && auxins.Count < maxAuxins; i++ ) {
 			x = UnityEngine.Random.Range(0.0f,1.0f);
 			y = UnityEngine.Random.Range(0.0f,1.0f);
 
             if ( !hitTestPotentialAuxin ( x, y ) )
-                _auxins.Add ( new Auxin ( x, y ) );
+                auxins.Add ( new Auxin ( x, y ) );
         }
     }
 
     void placeVeinNodes()
     {
         // Make sure we don't iterate newly-placed vein nodes.
-        System.Object[] veinNodes = _graph.vertices.ToArray();
+        System.Object[] veinNodes = graph.vertices.ToArray();
         int count = veinNodes.Length;
 
 		influencedNodes = new Dictionary<Auxin, List<VeinNode>>();
@@ -282,6 +315,7 @@ public class VenationAlgorithm
                 
         for ( int i = 0; i < count; i++ ) {
             VeinNode veinNode = ( VeinNode ) veinNodes[i];
+//			Debug.Log ( "placeVeinNode " + i );
             placeVeinNode ( veinNode );
         }
     }
@@ -289,8 +323,11 @@ public class VenationAlgorithm
     void placeVeinNode ( VeinNode seedVeinNode )
     {
         VeinNode veinNode;
-        List<Auxin> influencerAuxins = getInfluencerAuxins ( seedVeinNode );
-        PVector p = getAuxinInfluenceDirection ( seedVeinNode, influencerAuxins );
+		List<Auxin> influencerAuxins = getInfluencerAuxins ( seedVeinNode );
+//		Debug.Log ( "# influencerAuxins " + influencerAuxins.Count );
+		PVector p = getAuxinInfluenceDirection ( seedVeinNode, influencerAuxins );
+		
+//		Debug.Log ( "getAuxinInfluenceDirection " + p.ToString() );
 
         if ( p != PVector.zero ) {
             if ( p.mag() <= 0 ) {
@@ -299,12 +336,12 @@ public class VenationAlgorithm
 				p.rotate ( UnityEngine.Random.Range(0.0f,1.0f) * 2 * Mathf.PI );
             }
 
-            p.mult ( 2 * _veinNodeRadius );
+            p.mult ( 2 * veinNodeRadius );
 			//p.rotate((2 * UnityEngine.Random.Range(0.0f,1.0f) - 1) * 2 * PI * 0.05); // jitter
             p.add ( seedVeinNode.getPositionRef() );
             veinNode = new VeinNode ( p );
-            _graph.AddVertex ( veinNode );
-            _graph.AddEdge ( seedVeinNode, veinNode );
+            graph.AddVertex ( veinNode );
+            graph.AddEdge ( seedVeinNode, veinNode );
         }
     }
 
@@ -315,8 +352,8 @@ public class VenationAlgorithm
         PVector auxinPos, veinNodePos;
         float dist;
 
-        for ( int i = 0; i < _auxins.Count; i++ ) {
-            auxin = _auxins[i];
+        for ( int i = 0; i < auxins.Count; i++ ) {
+            auxin = auxins[i];
             auxinPos = auxin.getPositionRef();
 
             if ( auxin.isDoomed() ) {
@@ -329,14 +366,14 @@ public class VenationAlgorithm
                     // FIXME: Inefficient because of PVector instantiation.
                     dist = PVector.sub ( veinNodePos, auxinPos ).mag();
 
-                    if ( dist < _killRadius || !influencedVeinNodes.Contains ( veinNode ) ) {
+                    if ( dist < killRadius || !influencedVeinNodes.Contains ( veinNode ) ) {
                         taggedVeinNodes.RemoveAt ( j );
                         j--;
                     }
                 }
 
                 if ( taggedVeinNodes.Count <= 0 ) {
-                    _auxins.RemoveAt ( i );
+                    auxins.RemoveAt ( i );
                     i--;
                 }
             }
@@ -349,7 +386,7 @@ public class VenationAlgorithm
                         auxin.setTaggedVeinNodes ( influencedVeinNodes );
                     }
                     else {
-                        _auxins.RemoveAt ( i );
+                        auxins.RemoveAt ( i );
                         i--;
                     }
                 }
@@ -364,8 +401,8 @@ public class VenationAlgorithm
     {
         float dx, dy, r;
         PVector p;
-        r = _killRadius * _killRadius;
-        List<VeinNode> veinNodes = _graph.vertices;
+        r = killRadius * killRadius;
+        List<VeinNode> veinNodes = graph.vertices;
 
         foreach ( VeinNode veinNode in veinNodes ) {
             p = veinNode.getPositionRef();
@@ -386,9 +423,9 @@ public class VenationAlgorithm
     {
         float dx, dy, r;
         PVector p;
-        r = 4.0f * _auxinRadius * _auxinRadius;
+        r = 4.0f * auxinRadius * auxinRadius;
 
-        foreach ( Auxin auxin in _auxins ) {
+        foreach ( Auxin auxin in auxins ) {
             p = auxin.getPositionRef();
             dx = p.x - x;
             dy = p.y - y;
@@ -397,8 +434,8 @@ public class VenationAlgorithm
                 return true;
         }
 
-        r = _killRadius * _killRadius;
-        List<VeinNode> veinNodes = _graph.vertices;
+        r = killRadius * killRadius;
+        List<VeinNode> veinNodes = graph.vertices;
 
         foreach ( VeinNode veinNode in veinNodes ) {
             p = veinNode.getPositionRef();

@@ -2,57 +2,65 @@ using UnityEngine;
 
 public class Venation: MonoBehaviour
 {
-	VenationAlgorithm va;
+	VenationAlgorithm venationAlgorithm;
 //	VenationRenderer renderer;
 	SimpleRenderer renderer;
 	bool draw;
 	
 	public Material glLineMaterial;
+	
+	public int nrOfSeeds;
+	public int maxAuxins;
+	public float auxinRadius;
+	public float veinNodeRadius;
+	public float killRadius;
+	public float neighborhoodRadius;
+
+	public static int startFrame;
     
 	// this boots the app, which creates the JsonRPC server,
 	// which in turn creates the Scene instances (one for every browser session)
-	void Awake()
+	void Start()
 	{
 //		glLineMaterial = Resources.Load ( "GlLineMat", typeof ( Material ) ) as Material;
-        Reset();
+		draw = false;
+    }
+	
+	void RandomSeeds()
+	{
+		venationAlgorithm = new VenationAlgorithm ( nrOfSeeds, maxAuxins, auxinRadius, veinNodeRadius, killRadius, neighborhoodRadius );
+		//	renderer = new VenationRenderer ( va, this.g, width );
+		renderer = new SimpleRenderer ( venationAlgorithm, Screen.height );
+		startFrame = Time.frameCount;
+        draw = true;
+	}
+
+	void MouseSeed()
+	{
+		venationAlgorithm = new VenationAlgorithm ( maxAuxins, auxinRadius, veinNodeRadius, killRadius, neighborhoodRadius );
+		//	renderer = new VenationRenderer ( va, this.g, width );
+		renderer = new SimpleRenderer ( venationAlgorithm, Screen.height );
+		startFrame = Time.frameCount;
+        draw = true;
     }
     
-	void Reset()
+    void Update ()
 	{
-		va = new VenationAlgorithm();
-		//	renderer = new VenationRenderer ( va, this.g, width );
-		renderer = new SimpleRenderer ( va, Screen.height );
-		draw = true;
-	}
-	
-	void Update ()
-	{
-		draw = true;
-//		switch ( key ) {
-//		case 'e':
-//			reset();
-//			draw = true;
-//			break;
-//			
-//		case ' ':
-//			va.step();
-//			draw = true;
-//			break;
-//			
-//		case 'r':
-//			save ( "render.png" );
-//            break;
-//        }
+		if ( Input.GetKeyDown ( KeyCode.Space ) )
+			RandomSeeds ();
+
+		if ( Input.GetKeyDown ( KeyCode.Mouse0 ) )
+			MouseSeed ();
+
+		if ( draw )
+			venationAlgorithm.step();
     }
     
     public void OnPostRender()
     {
 		if ( !draw ) return;
 
-		va.step();
 		renderer.draw ( glLineMaterial );
-        
-        draw = false;
 	}
 	
 }

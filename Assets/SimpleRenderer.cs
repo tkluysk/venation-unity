@@ -4,19 +4,20 @@ using System.Collections.Generic;
 
 class SimpleRenderer
 {
-    private VenationAlgorithm va;
+	private VenationAlgorithm venationAlgorithm;
     private float size;
 
-    public SimpleRenderer ( VenationAlgorithm _va, int _size )
+	public SimpleRenderer ( VenationAlgorithm venationAlgorithm, int size )
     {
-        va = _va;
-        size = _size;
+		this.venationAlgorithm = venationAlgorithm;
+        this.size = size;
     }
 
     public void draw ( Material lineMaterial )
 	{
 		PVector p;
-		List<VeinNode> veinNodes = va.getVeinNodes();
+		List<VeinNode> veinNodes = venationAlgorithm.getVeinNodes();
+		List<Edge> veinEdges = venationAlgorithm.getVeinEdges();
 		
 //		Debug.Log ( "drawing nodes " + veinNodes.Count );
         
@@ -38,7 +39,7 @@ class SimpleRenderer
 //			MiscUtil.GLDrawLine ( edge.v1.position, edge.v2.position );
 //        }
 
-		foreach ( Auxin auxin in va._auxins ) {
+		foreach ( Auxin auxin in venationAlgorithm.auxins ) {
 			p = auxin.getPosition() * size;
 //			Debug.Log ( "drawing auxin " + p.x + " " + p.y );
 			MiscUtil.GLDrawCross ( p, 1.0f );
