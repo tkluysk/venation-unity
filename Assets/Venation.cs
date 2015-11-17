@@ -30,26 +30,26 @@ public class Venation: MonoBehaviour
 	{
 		va = new VenationAlgorithm();
 		//	renderer = new VenationRenderer ( va, this.g, width );
-		renderer = new SimpleRenderer ( va, width );
+		renderer = new SimpleRenderer ( va, Screen.height );
 	}
 	
 	void Update ()
 	{
-		switch ( key ) {
-		case 'e':
-			reset();
-			draw = true;
-			break;
-			
-		case ' ':
-			va.step();
-			draw = true;
-			break;
-			
-		case 'r':
-			save ( "render.png" );
-            break;
-        }
+//		switch ( key ) {
+//		case 'e':
+//			reset();
+//			draw = true;
+//			break;
+//			
+//		case ' ':
+//			va.step();
+//			draw = true;
+//			break;
+//			
+//		case 'r':
+//			save ( "render.png" );
+//            break;
+//        }
     }
     
     
