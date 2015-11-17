@@ -5,8 +5,9 @@ using System.Collections.Generic;
     
 public class MiscUtil
 {
-    
-    public static void GLDrawPoint ( Vector3 position, float radius )
+	public static float zee = .9f;
+
+	public static void GLDrawPoint ( Vector3 position, float radius )
     {
         float x = Mathf.Round ( position.x );
         float y = Mathf.Round ( position.y );

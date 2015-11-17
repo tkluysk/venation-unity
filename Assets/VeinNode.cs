@@ -1,4 +1,4 @@
-class VeinNode : Point
+public class VeinNode : Point
 {
     VeinNode()
     {

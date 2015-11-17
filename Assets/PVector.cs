@@ -62,7 +62,7 @@ public class PVector
                 }
 
                 default: {
-                    throw new IndexOutOfRangeException ( "out of range Vector3 index" );
+					return 0;
                 }
             }
         }
@@ -78,20 +78,13 @@ public class PVector
                     break;
                 }
 
-                default: {
-                    throw new IndexOutOfRangeException ( "out of range Vector3 index" );
+				default: {
+					break;
                 }
             }
         }
     }
 
-    public PVector normalized
-    {
-        get {
-            return Vector2.Normalize ( this );
-        }
-    }
-	
 	public float mag()
 	{
 		return Mathf.Sqrt ( this.x * this.x + this.y * this.y );
@@ -100,7 +93,7 @@ public class PVector
     public float sqrMagnitude
     {
         get {
-            return this.x * this.x + this.y * this.y + this.z * this.z;
+            return this.x * this.x + this.y * this.y;
         }
     }
 
@@ -167,8 +160,8 @@ public class PVector
 	
 	public void mult ( float other )
 	{
-		this.x *= vector.x;
-		this.y *= vector.y;
+		this.x *= other;
+		this.y *= other;
 	}
 	
 	public void rotate ( float angle )
@@ -261,20 +254,12 @@ public class PVector
     public static float Distance ( PVector a, PVector b )
     {
         PVector vector = new PVector ( a.x - b.x, a.y - b.y );
-        return Math.Sqrt ( vector.x * vector.x + vector.y * vector.y );
-    }
-
-    public static PVector ClampMagnitude ( PVector vector, float maxLength )
-    {
-        if ( vector.sqrMagnitude > maxLength * maxLength )
-            return vector.normalized * maxLength;
-
-        return vector;
+        return Mathf.Sqrt ( vector.x * vector.x + vector.y * vector.y );
     }
 	
     public static float Magnitude ( PVector a )
     {
-        return Math.Sqrt ( a.x * a.x + a.y * a.y );
+        return Mathf.Sqrt ( a.x * a.x + a.y * a.y );
     }
 
     public static float SqrMagnitude ( PVector a )
@@ -339,9 +324,9 @@ public class PVector
 
     public static bool operator == ( PVector lhs, PVector rhs )
     {
-        if ( Math.Abs ( lhs.x - rhs.x ) > kEpsilon ) return false;
+        if ( Mathf.Abs ( lhs.x - rhs.x ) > kEpsilon ) return false;
 
-        if ( Math.Abs ( lhs.y - rhs.y ) > kEpsilon ) return false;
+        if ( Mathf.Abs ( lhs.y - rhs.y ) > kEpsilon ) return false;
 
         return true;
 //		return Vector.SqrMagnitude (lhs - rhs) < 9.99999944E-11f;

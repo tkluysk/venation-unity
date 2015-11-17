@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 public class Graph
 {
-	public List<Point> vertices;
+	public List<VeinNode> vertices;
 
     public Graph()
     {
-		vertices = new List<Point>();
+		vertices = new List<VeinNode>();
     }
 	
 	public void AddVertex ( Point vertex )
 	{
-		vertices.Add ( vertex );
+		vertices.Add ( (VeinNode)vertex );
 	}
 	public void AddEdge ( Point vertex1, Point vertex2 )
 	{

@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 //import java.util.Set;
 
-class VenationAlgorithm
+public class VenationAlgorithm
 {
     List<Auxin> _auxins;
     float _auxinRadius;
@@ -17,13 +17,13 @@ class VenationAlgorithm
     float _neighborhoodRadius;
     Graph _graph;
 
-    VenationAlgorithm()
+    public VenationAlgorithm()
     {
         _auxins = new List<Auxin>();
-        _auxinRadius = 0.025;
-        _veinNodeRadius = 0.0125;
-        _killRadius = 0.025;
-        _neighborhoodRadius = 0.1;
+        _auxinRadius = 0.025f;
+        _veinNodeRadius = 0.0125f;
+        _killRadius = 0.025f;
+        _neighborhoodRadius = 0.1f;
         _graph = new Graph();
         seedVeinNodes();
         seedAuxins();
@@ -61,7 +61,7 @@ class VenationAlgorithm
         return _auxins.Count;
     }
 
-    List<VeinNode> getVeinNodes()
+    public List<VeinNode> getVeinNodes()
     {
         return _graph.vertices;
     }
@@ -73,7 +73,7 @@ class VenationAlgorithm
 
     List<Auxin> getNeighborAuxins ( float x, float y )
     {
-        float dx, dy, r = 4.0 * _neighborhoodRadius * _neighborhoodRadius;
+        float dx, dy, r = 4.0f * _neighborhoodRadius * _neighborhoodRadius;
         PVector p;
         List<Auxin> neighborAuxins = new List<Auxin>();
 
@@ -91,7 +91,7 @@ class VenationAlgorithm
 
     List<VeinNode> getNeighborVeinNodes ( float x, float y )
     {
-        float dx, dy, r = 4.0 * _neighborhoodRadius * _neighborhoodRadius;
+        float dx, dy, r = 4.0f * _neighborhoodRadius * _neighborhoodRadius;
         PVector p;
         List<VeinNode> neighborVeinNodes = new List<VeinNode>();
         List<VeinNode> veinNodes = _graph.vertices;
