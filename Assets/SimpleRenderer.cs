@@ -13,62 +13,23 @@ class SimpleRenderer
         _size = size;
     }
 
-    public void draw()
-    {
-		
-		
-		//		mmMatrix4 gridMatrix = mmMatrix4.identity;
-		//		gridMatrix.SetTranslation ( gridOrigin.x, gridOrigin.y, gridOrigin.z );
-		//		gridMatrix *= rotationMatrix;
-		//		lineMaterial = scene.settings.glLineMaterial;
-		//		lineMaterial.SetPass ( 0 );
-		//		GL.PushMatrix();
-		//		GL.MultMatrix ( gridMatrix );
-		//		GL.Begin ( GL.LINES );
-		//		GL.Color ( scene.settings.gridColorMain );
-		//		
-		//		for ( int nr = 0; nr < 6; nr++ ) {
-		//			for ( float i = 0; i <= divisions; i++ ) {
-		//				// circle for fading
-		//				float circle = Mathf.Sqrt ( 1 - Mathf.Pow ( 2f * i / divisions - 1f, 2 ) );
-		//				GL.Vertex ( new Vector3 ( size / 2f - i * unit, 0, -size / 2f * circle ) );
-		//				GL.Vertex ( new Vector3 ( size / 2f - i * unit, 0, size / 2f * circle ) );
-		//				GL.Vertex ( new Vector3 ( -size / 2f * circle, 0, size / 2f - i * unit ) );
-		//				GL.Vertex ( new Vector3 ( size / 2f * circle, 0, size / 2f - i * unit ) );
-        //			}
-        //			
-        //			size -= unit * 6;
-        //			divisions -= 6;
-        //		}
-		//		
-		
-		lineMaterial.SetPass ( 0 );
+    public void draw ( Material lineMaterial )
+	{
+		PVector p;
+		List<VeinNode> veinNodes = _va.getVeinNodes();
+        
+        lineMaterial.SetPass ( 0 );
 		GL.PushMatrix();
 		GL.LoadPixelMatrix();
 		GL.Begin ( GL.LINES );
-		Vector3 point;
-		GL.Color ( scene.settings.pointColor );
-
-		//		GL.End();
-		//		GL.PopMatrix();
-
-
+		GL.Color ( Color.black );
 		
-		
-        PVector p;
-        List<VeinNode> veinNodes = _va.getVeinNodes();
-        _g.stroke ( 128 );
-        _g.strokeWeight ( 1 );
-        _g.noFill();
+		foreach ( VeinNode veinNode in veinNodes ) {
+			p = veinNode.getPositionRef();
+			MiscUtil.GLDrawDot ( p );
+		}
 
-        foreach ( VeinNode veinNode in veinNodes ) {
-            p = veinNode.getPositionRef();
-            drawPoint ( _size * p.x, _size * p.y );
-        }
-    }
-
-    public void drawPoint ( float x, float y )
-    {
-        _g.line ( x, y, x, y + 4 );
+		GL.End();
+		GL.PopMatrix();
     }
 }

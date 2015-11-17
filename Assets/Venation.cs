@@ -58,9 +58,9 @@ public class Venation: MonoBehaviour
 		if ( !draw ) return;
 
 //        background ( 255 );
-        renderer.draw();
-
-		draw = false;
+		renderer.draw ( glLineMaterial );
+        
+        draw = false;
 	}
 	
 }
