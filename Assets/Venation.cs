@@ -19,7 +19,9 @@ public class Venation: MonoBehaviour
 	public Camera camera;
 	public Color[] backgroundColors;
 	public Color[] veinColors;
-	public Color veinColor;
+	Color veinColor;
+	public Material material;
+	public Texture2D texture;
 
 	public static int startFrame;
     
@@ -29,6 +31,7 @@ public class Venation: MonoBehaviour
 	{
 //		glLineMaterial = Resources.Load ( "GlLineMat", typeof ( Material ) ) as Material;
 		draw = false;
+		material.SetTexture ( "EmissionMap", texture );
     }
 
 	void Reset()
@@ -37,6 +40,7 @@ public class Venation: MonoBehaviour
 		startFrame = Time.frameCount;
 		int colorIndex = Random.Range(0,4);
 		camera.backgroundColor = backgroundColors[colorIndex];
+		material.SetColor ( "Color", backgroundColors[colorIndex] );
 		veinColor = veinColors[colorIndex];
 		draw = true;
     }
@@ -49,13 +53,12 @@ public class Venation: MonoBehaviour
 
 	void MouseSeed()
 	{
-		venationAlgorithm = new VenationAlgorithm ( maxAuxins, auxinRadius, veinNodeRadius, killRadius, neighborhoodRadius );
+		venationAlgorithm = new VenationAlgorithm ( texture, maxAuxins, auxinRadius, veinNodeRadius, killRadius, neighborhoodRadius );
 		Reset ();
     }
     
     void Update ()
 	{
-
 		if ( Input.GetKeyDown ( KeyCode.Space ) )
 			RandomSeeds ();
 

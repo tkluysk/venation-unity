@@ -13,8 +13,7 @@ using System.Collections.Generic;
 public class VenationAlgorithm
 {
 	Dictionary<Auxin,List<VeinNode>> influencedNodes;
-
-
+	
 	public List<Auxin> auxins;
 	int nrOfSeeds;
 	int maxAuxins;
@@ -23,7 +22,7 @@ public class VenationAlgorithm
     float killRadius;
     float neighborhoodRadius;
     Graph graph;
-
+	Texture2D texture;
 	
 	public VenationAlgorithm ( int nrOfSeeds, int maxAuxins, float auxinRadius, float veinNodeRadius, float killRadius, float neighborhoodRadius )
 	{		
@@ -42,9 +41,17 @@ public class VenationAlgorithm
 	}
 
 	// Using mouse
-	public VenationAlgorithm ( int maxAuxins, float auxinRadius, float veinNodeRadius, float killRadius, float neighborhoodRadius )
-	{		
-		this.maxAuxins = maxAuxins;
+	public VenationAlgorithm ( Texture2D texture, int maxAuxins, float auxinRadius, float veinNodeRadius, float killRadius, float neighborhoodRadius )
+	{	
+		this.texture = texture;
+
+		float mouseX = Input.mousePosition.x/Screen.width;
+		float mouseY = Input.mousePosition.y/Screen.height;
+
+		Vector3 startColor = SampleColorVector ( mouseX, mouseY );
+
+
+        this.maxAuxins = maxAuxins;
 		this.auxinRadius = auxinRadius;
 		this.veinNodeRadius = veinNodeRadius;
 		this.killRadius = killRadius;
@@ -54,10 +61,16 @@ public class VenationAlgorithm
 		
 		graph = new Graph();
 
-		graph.AddVertex ( new VeinNode ( Input.mousePosition.x/Screen.width, Input.mousePosition.y/Screen.height ) );
+		graph.AddVertex ( new VeinNode ( mouseX, mouseY ) );
 
-		seedAuxins();
+		seedAuxins ( startColor );
     }
+
+	Vector3 SampleColorVector ( float x, float y )
+	{
+		Color tmpColor = texture.GetPixel( Mathf.FloorToInt ( texture.width * x ), Mathf.FloorToInt ( texture.height * y ) );
+		return new Vector3 ( tmpColor.r, tmpColor.g, tmpColor.b );
+	}
     
     /// Accessors
     
@@ -289,20 +302,35 @@ public class VenationAlgorithm
             graph.AddVertex ( veinNode );
         }
     }
-
-    void seedAuxins()
-    {
-        float x, y;
-
-        for ( int i = 0; i < 100000 && auxins.Count < maxAuxins; i++ ) {
+	
+	void seedAuxins()
+	{
+		float x, y;
+		
+		for ( int i = 0; i < 100000 && auxins.Count < maxAuxins; i++ ) {
 			x = UnityEngine.Random.Range(0.0f,1.0f);
-			y = UnityEngine.Random.Range(0.0f,1.0f);
-
+			y = UnityEngine.Random.Range(0.0f,1.0f);			
             if ( !hitTestPotentialAuxin ( x, y ) )
                 auxins.Add ( new Auxin ( x, y ) );
         }
     }
 
+	void seedAuxins( Vector3 startColor )
+	{
+		float x, y;
+		
+		for ( int i = 0; i < 100000 && auxins.Count < maxAuxins; i++ ) {
+			x = UnityEngine.Random.Range(0.0f,1.0f);
+			y = UnityEngine.Random.Range(0.0f,1.0f);
+
+			if ( ( SampleColorVector ( x, y ) - startColor ).sqrMagnitude > (.3f*.3f) )
+				continue;
+
+			if ( !hitTestPotentialAuxin ( x, y ) )
+				auxins.Add ( new Auxin ( x, y ) );
+        }
+    }
+    
     void placeVeinNodes()
     {
         // Make sure we don't iterate newly-placed vein nodes.
