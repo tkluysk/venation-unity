@@ -20,6 +20,7 @@ public class Venation: MonoBehaviour
 	public Color[] backgroundColors;
 	public Color[] veinColors;
 	Color veinColor;
+	public GameObject background;
 	public Material material;
 	public Texture2D texture;
 
@@ -31,7 +32,7 @@ public class Venation: MonoBehaviour
 	{
 //		glLineMaterial = Resources.Load ( "GlLineMat", typeof ( Material ) ) as Material;
 		draw = false;
-		material.SetTexture ( "EmissionMap", texture );
+		material.SetTexture ( "_EmissionMap", texture );
     }
 
 	void Reset()
@@ -40,8 +41,10 @@ public class Venation: MonoBehaviour
 		startFrame = Time.frameCount;
 		int colorIndex = Random.Range(0,4);
 		camera.backgroundColor = backgroundColors[colorIndex];
-		material.SetColor ( "Color", backgroundColors[colorIndex] );
+		var tmpColor = backgroundColors[colorIndex];
+		material.color = new Color ( tmpColor.r, tmpColor.g, tmpColor.b, 0.1f );
 		veinColor = veinColors[colorIndex];
+		background.GetComponent<Renderer>().material = material;
 		draw = true;
     }
     
@@ -50,8 +53,14 @@ public class Venation: MonoBehaviour
 		venationAlgorithm = new VenationAlgorithm ( nrOfSeeds, maxAuxins, auxinRadius, veinNodeRadius, killRadius, neighborhoodRadius );
 		Reset ();
 	}
-
+	
 	void MouseSeed()
+	{
+		venationAlgorithm = new VenationAlgorithm ( maxAuxins, auxinRadius, veinNodeRadius, killRadius, neighborhoodRadius );
+		Reset ();
+	}
+
+	void MouseSeedWithTexture()
 	{
 		venationAlgorithm = new VenationAlgorithm ( texture, maxAuxins, auxinRadius, veinNodeRadius, killRadius, neighborhoodRadius );
 		Reset ();
@@ -62,8 +71,12 @@ public class Venation: MonoBehaviour
 		if ( Input.GetKeyDown ( KeyCode.Space ) )
 			RandomSeeds ();
 
-		if ( Input.GetKeyDown ( KeyCode.Mouse0 ) )
-			MouseSeed ();
+		if ( Input.GetKeyDown ( KeyCode.Mouse0 ) ) {
+			if ( texture == null )
+				MouseSeed ();
+			else
+				MouseSeedWithTexture ();
+		}
 
 		if ( draw ) {
 			venationAlgorithm.step();

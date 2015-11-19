@@ -36,22 +36,15 @@ public class VenationAlgorithm
 		auxins = new List<Auxin>();
 		
 		graph = new Graph();
-		seedVeinNodes();
+        seedVeinNodes();
         seedAuxins();
 	}
 
-	// Using mouse
-	public VenationAlgorithm ( Texture2D texture, int maxAuxins, float auxinRadius, float veinNodeRadius, float killRadius, float neighborhoodRadius )
-	{	
-		this.texture = texture;
-
-		float mouseX = Input.mousePosition.x/Screen.width;
-		float mouseY = Input.mousePosition.y/Screen.height;
-
-		Vector3 startColor = SampleColorVector ( mouseX, mouseY );
-
-
-        this.maxAuxins = maxAuxins;
+	// Using mouse without texture
+	public VenationAlgorithm ( int maxAuxins, float auxinRadius, float veinNodeRadius, float killRadius, float neighborhoodRadius )
+	{		
+		this.nrOfSeeds = 1;
+		this.maxAuxins = maxAuxins;
 		this.auxinRadius = auxinRadius;
 		this.veinNodeRadius = veinNodeRadius;
 		this.killRadius = killRadius;
@@ -60,11 +53,39 @@ public class VenationAlgorithm
 		auxins = new List<Auxin>();
 		
 		graph = new Graph();
-
+		
+		float mouseX = Input.mousePosition.x/Screen.width;
+		float mouseY = Input.mousePosition.y/Screen.height;
+		
 		graph.AddVertex ( new VeinNode ( mouseX, mouseY ) );
-
-		seedAuxins ( startColor );
+        seedAuxins();
     }
+    
+    // Using mouse with texture
+	public VenationAlgorithm ( Texture2D texture, int maxAuxins, float auxinRadius, float veinNodeRadius, float killRadius, float neighborhoodRadius )
+	{	
+		this.texture = texture;
+		
+		float mouseX = Input.mousePosition.x/Screen.width;
+		float mouseY = Input.mousePosition.y/Screen.height;
+		
+		
+		this.maxAuxins = maxAuxins;
+		this.auxinRadius = auxinRadius;
+		this.veinNodeRadius = veinNodeRadius;
+		this.killRadius = killRadius;
+		this.neighborhoodRadius = neighborhoodRadius;
+		
+		auxins = new List<Auxin>();
+		
+		graph = new Graph();
+		
+		graph.AddVertex ( new VeinNode ( mouseX, mouseY ) );
+        
+        Vector3 startColor = SampleColorVector ( mouseX, mouseY );
+        seedAuxins ( startColor );
+    }
+
 
 	Vector3 SampleColorVector ( float x, float y )
 	{
